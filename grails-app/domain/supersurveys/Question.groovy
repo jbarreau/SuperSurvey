@@ -24,4 +24,8 @@ class Question {
 		nbVotes nullable: false
 		type nullable: false
     }
+	
+	public String toString(){
+		return text
+	}
 }

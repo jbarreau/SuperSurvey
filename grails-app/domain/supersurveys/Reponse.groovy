@@ -14,4 +14,8 @@ class Reponse {
 		visible nullable: false
 		correcte nullable: false
     }
+	
+	public String toString(){
+		return this.text
+	}
 }

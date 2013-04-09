@@ -9,4 +9,9 @@ class Commentaire {
     static constraints = {
     	text nullable: false, blank: false
 	}
+	
+	public String toString(){
+		return text
+	}
+	
 }

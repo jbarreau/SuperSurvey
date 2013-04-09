@@ -14,4 +14,8 @@ class User {
 		email nullable: false, blank: false, email: true, unique: true
 		password nullable: false, minSize: 3
 	}
+	
+	public String toString(){
+		return nom + " " + prenom
+	}
 }
