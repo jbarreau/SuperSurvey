@@ -1,13 +1,15 @@
 package supersurveys
 
 class Reponse {
-	Question ques
-	String value
-	boolean resIsVisible
-	List<String> commentaires
-	boolean comIsVisible
+
+	String text
+	boolean visible
+	boolean correcte
 	
+	static belongsTo = [question:Question]
+	static hasMany = [commentaires:Commentaire]
 	
     static constraints = {
+		
     }
 }
