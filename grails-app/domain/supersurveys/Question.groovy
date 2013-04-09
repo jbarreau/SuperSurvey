@@ -11,6 +11,8 @@ class Question {
 	int nbVotes
 	TypeQuestion type
 	
+	static hasMany = [reponses:Reponse]
+	
 	//// On annule cette appartenance car si on supprime un membre on ne veut
 	//// Pas forcément supprimer les questions associées 
 	//// static belongsTo = [proprietaire:User] // à supprimer une fois lu

@@ -10,6 +10,8 @@ class Reponse {
 	static hasMany = [commentaires:Commentaire]
 	
     static constraints = {
-		
+		text nullable: false, blank: false
+		visible nullable: false
+		correcte nullable: false
     }
 }
