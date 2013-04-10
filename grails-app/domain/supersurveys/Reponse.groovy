@@ -1,7 +1,7 @@
 package supersurveys
 
 class Reponse {
-
+	
 	String text
 	boolean visible
 	boolean correcte
