@@ -18,7 +18,18 @@
 		<r:layoutResources />
 	</head>
 	<body>
-		<div id="header" role="banner"><a href="#"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo (à changer)"/></a></div>
+		<div id="header" role="banner">
+			<a href="#"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo (à changer)"/></a>
+			<div class="login-section">
+				<auth:ifNotLoggedIn>
+					<auth:form authAction="login" success="[controller:'user', action:'list']" error="[controller:'index', action:'index']">
+						Login: <g:textField name="login"/>
+						Mot de passe: <input type="password" name="password" />
+						<input type="submit" value="Se connecter" />
+					</auth:form>
+				</auth:ifNotLoggedIn>
+			</div>
+		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"> SuperSurvey - 2013 - GPL ??! </div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

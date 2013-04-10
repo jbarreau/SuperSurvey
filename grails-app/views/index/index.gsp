@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
+		<title>SuperSurvey - Bienvenue</title>
 		<style type="text/css" media="screen">
 			#status {
 				background-color: #eee;
@@ -89,18 +89,18 @@
 			<h1>Bienvenue sur SuperSurvey</h1>
 			<h2>L'application qui va vous permettre de communiquer, enfin, avec vos profs ;)</h2>
 
-			<g:conteneur>
-				<g:section titre="Je suis un professeur">
+			<g:board>
+				<g:boardSection titre="Je suis un professeur">
 					<ul>
 						<li>Se connecter à mon compte</li>
 					</ul>
-				</g:section>
-				<g:section titre="Je suis un étudiant">
+				</g:boardSection>
+				<g:boardSection titre="Je suis un étudiant">
 					<ul>
 						<li>Voir la liste des questions</li>
 					</ul>
-				</g:section>
-			</g:conteneur>
+				</g:boardSection>
+			</g:board>
 
 			<div id="controller-list" role="navigation">
 				<h2>Available Controllers:</h2>

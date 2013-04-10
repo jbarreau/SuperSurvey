@@ -6,6 +6,10 @@ class User {
 	String email
 	String password
 	
+	// Les deux champs suivants sont utilisés par le plugin authentication
+	String login
+	int status
+	
 	static hasMany = [questions:Question]
 
     static constraints = {

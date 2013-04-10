@@ -67,7 +67,13 @@ h1 {
 	color: #4499ee;
 	font-weight: normal;
 	font-size: 1.25em;
-	margin: 0.8em 0 0.3em 0;
+	margin: 0.8em 1em 0.3em 1em;
+}
+
+h2 {
+	color: #777;
+	font-size: 1.15em;
+	margin: 0 1em 0.5em 1em;
 }
 
 ul {
@@ -595,24 +601,24 @@ a.skip {
 /**
  * Tableau de bord pour afficher des lots d'actions
  */
- .tableau-de-bord{
+ .board{
  
  }
- .tableau-de-bord .section{
+ .board .board-section{
  	background: #fcfcfc;
  	border: 1px solid #ccc;
  	border-radius: 3px;
  	margin: 10px;
  	float: left;
  }
-.tableau-de-bord .section ul{
+.board .board-section ul{
 	list-style-position: inside;  
 }
-.tableau-de-bord .section .section-titre{
+.board .board-section .board-section-titre{
 	border-bottom: 1px solid #aaa;
 	padding: 10px;
 	background: #fbfbfb;
 } 
-.tableau-de-bord .section .section-contenu{
+.board .board-section .board-section-contenu{
 	padding: 10px;
 } 

@@ -89,3 +89,9 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+
+// Configuration du plugin authentication
+authenticationUserClass = User
+// authentication.signup.disabled = true // Interdire l'inscritpion de profs en prodution
+grails.validateable.classes = [com.grailsrocks.authentication.SignupForm, com.grailsrocks.authentication.LoginForm]
