@@ -6,18 +6,14 @@ class ReponseController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index() {
+    /*def index() {
         redirect(action: "list", params: params)
     }
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [reponseInstanceList: Reponse.list(params), reponseInstanceTotal: Reponse.count()]
-    }
-
-    def create() {
-        [reponseInstance: new Reponse(params)]
-    }
+    }*/
 
     def save() {
         def reponseInstance = new Reponse(params)
@@ -98,5 +94,14 @@ class ReponseController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'reponse.label', default: 'Reponse'), id])
             redirect(action: "show", id: id)
         }
+    }
+	
+	def listByQuestion(long idQuest) {
+		//params.max = Math.min(max ?: 10, 100)
+		//[reponseInstanceList: Reponse.list(params), reponseInstanceTotal: Reponse.count()]
+	}
+    
+	def create() {
+        [reponseInstance: new Reponse(params)]
     }
 }
