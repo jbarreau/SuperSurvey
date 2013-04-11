@@ -21,13 +21,14 @@ class QuestionController {
 
     def save() {
         def questionInstance = new Question(params)
+		questionInstance.setEtat(Etat.inCompletion)
         if (!questionInstance.save(flush: true)) {
             render(view: "create", model: [questionInstance: questionInstance])
             return
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
-        redirect(action: "show", id: questionInstance.id)
+        redirect(action: "edit", id: questionInstance.id)
     }
 
     def show(Long id) {
@@ -106,12 +107,12 @@ class QuestionController {
 	}
 	
 	def cloture(Long id){
-		Question.get(id).etat = Etat.Close//close
+		Question.get(id).etat = Etat.close//close
 		redirect(action: "showStat", id: questionInstance.id)
 	}
 	
 	def showStat(Long id){
-		if (Question.get(id).etat==Etat.Close)
+		if (Question.get(id).etat==Etat.close)
 			render(view: "showStat", model: [questionInstance: questionInstance])
 	}
 }

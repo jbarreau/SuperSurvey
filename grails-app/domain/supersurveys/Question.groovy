@@ -5,14 +5,14 @@ enum TypeQuestion{
 }
 
 enum Etat{
-	inCompletion,inVote,Close//ChoixMultiple,ChoixSimple//créé, en cour, fermé	
+	inCompletion,inVote,close//ChoixMultiple,ChoixSimple//crï¿½ï¿½, en cour, fermï¿½	
 }
 
 class Question {
 	String text
 	Date dateCreation
 	int temps // Un temps en secondes
-	int nbVotesEffectue
+	int nbVotes
 	TypeQuestion type
 	Etat etat
 	

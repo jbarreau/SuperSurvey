@@ -5,6 +5,29 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'question.label', default: 'Question')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
+		<g:javascript src="jquery.form.js"></g:javascript>
+		<g:javascript>
+			(function($){
+				$(document).ready(function(){
+					var formElement = $(".edit-reponse form");
+					
+					$(formElement).ajaxForm({ //return;
+					
+						beforeSubmit: function(formData, jqForm, options) { 
+    						var queryString = $.param(formData); 
+
+    						//var formElement = jqForm[0]; 
+ 							//alert("form elmt: \n" + formElement);
+ 							
+ 	 						//alert('About to submit: \n\n' + JSON.stringify(formData));
+ 	 						$(formElement).animate({opacity:0.4})
+						 },
+						success: function(){ $(formElement).animate({opacity:1}) },
+						error: function(){ $(formElement).animate({opacity:1}) }
+					});
+				});
+			})(jQuery);
+		</g:javascript>
 	</head>
 	<body>
 		<a href="#edit-question" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
