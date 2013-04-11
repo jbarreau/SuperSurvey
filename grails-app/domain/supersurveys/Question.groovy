@@ -4,12 +4,17 @@ enum TypeQuestion{
 	ChoixMultiple,ChoixSimple	
 }
 
+enum Etat{
+	inCompletion,inVote,Close//ChoixMultiple,ChoixSimple//créé, en cour, fermé	
+}
+
 class Question {
 	String text
 	Date dateCreation
 	int temps // Un temps en secondes
-	int nbVotes
+	int nbVotesEffectue
 	TypeQuestion type
+	Etat etat
 	
 	static hasMany = [reponses:Reponse]
 	

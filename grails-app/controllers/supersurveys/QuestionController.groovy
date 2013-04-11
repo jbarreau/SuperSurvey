@@ -99,4 +99,19 @@ class QuestionController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def startVote(Long id){
+		Question.get(id).etat = Etat.inVote
+		render(view: "vote", model: [questionInstance: questionInstance])
+	}
+	
+	def cloture(Long id){
+		Question.get(id).etat = Etat.Close//close
+		redirect(action: "showStat", id: questionInstance.id)
+	}
+	
+	def showStat(Long id){
+		if (Question.get(id).etat==Etat.Close)
+			render(view: "showStat", model: [questionInstance: questionInstance])
+	}
 }
