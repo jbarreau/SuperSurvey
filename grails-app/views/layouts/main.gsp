@@ -22,13 +22,17 @@
 			<a href="#"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo (à changer)"/></a>
 			<div class="login-section">
 				<auth:ifNotLoggedIn>
-					<auth:form authAction="login" success="[controller:'user', action:'list']" error="[controller:'index', action:'index']">
-						Login: <g:textField name="login"/>
-						Mot de passe: <input type="password" name="password" />
+					<auth:form authAction="login" error="[controller:'index', action:'index']">
+						<label for="flogin">Login: </label><g:textField name="login" id="flogin" />
+						<label for="fpwd">Mot de passe:</label> <input type="password" name="password" id="fpwd"/>
 						<input type="submit" value="Se connecter" />
 					</auth:form>
 				</auth:ifNotLoggedIn>
+				<auth:ifLoggedIn>
+					Bonjour [<auth:user/>]
+				</auth:ifLoggedIn>
 			</div>
+			<div class="clearer"></div>
 		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"> SuperSurvey - 2013 - GPL ??! </div>

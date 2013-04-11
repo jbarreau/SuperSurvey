@@ -622,3 +622,40 @@ a.skip {
 .board .board-section .board-section-contenu{
 	padding: 10px;
 } 
+
+/**
+ * Formulaire pour le login du header
+ */
+.login-section{
+	width: 300px;
+	height:100%;
+	float: right;
+}
+.login-section form{
+	margin: 10px;
+	
+}
+.login-section form input[type=text],
+.login-section form input[type=password]{
+	width: 140px;
+	padding: 2px 5px;
+	color: #333;
+	line-height: 22px;
+	float:right;
+	margin: 2px 0px;
+}
+.login-section form label{
+	float:left;
+	width:120px;
+	line-height:24px;
+	font-size: 0.8em;
+	text-align: right;
+	margin: 2px 0px;
+}
+.login-section form input[type=submit]{
+	margin: 3px 0px;
+	border-radius: 2px;
+	float: right;
+	display: block;
+	clear:both;
+}
