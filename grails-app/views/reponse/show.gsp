@@ -1,4 +1,4 @@
-
+<!-- to delete
 <%@ page import="supersurveys.Reponse" %>
 <!DOCTYPE html>
 <html>
@@ -81,3 +81,4 @@
 		</div>
 	</body>
 </html>
+ -->

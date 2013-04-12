@@ -23,7 +23,7 @@ class ReponseController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'reponse.label', default: 'Reponse'), reponseInstance.id])
-        redirect(action: "show", id: reponseInstance.id)
+        redirect(action: "edit", id: reponseInstance.id)
     }
 
     def show(Long id) {

@@ -30,16 +30,36 @@ class QuestionController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
         redirect(action: "edit", id: questionInstance.id)
     }
-
-    def show(Long id) {
+	
+def isProfLogged = true
+    
+	def show(Long id) {
         def questionInstance = Question.get(id)
         if (!questionInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
             redirect(action: "list")
             return
         }
+		Question q = Question.get(id);
+        
+		switch (questionInstance.etat){
+			case Etat.inCompletion:
+				if(isProfLogged){
+					render(view: "manage", model:[questionInstance: questionInstance])
+				}else{
+				}
+			
+				
+			break
+			case Etat.inVote:
+				
+			break
+			case Etat.close:
+				
+			break
+			
+		}
 
-        [questionInstance: questionInstance]
     }
 
     def edit(Long id) {

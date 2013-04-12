@@ -48,24 +48,7 @@
 		
 	</label>
 	
-<table id="edit-reponse">
-	<tr>
-		<th>#</th>
-		<th>Réponse</th>
-		<th>Count</th>
-		<th>Actions</th>
-	</tr>
-	<tr>
-<g:each in="${questionInstance?.reponses?}" var="r">
-    	<td>${r.id}</td>
-    	<td><g:link controller="reponse" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
-    	<td>${r?.nbVotes}</td>
-    	<td>
-    		<a href="#" class="add-reponse">Ajouter</a>
-    	</td>
-</g:each>
-	</tr>
-</table>
+
 <li class="add">
 <g:link controller="reponse" action="create" params="['question.id': questionInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'reponse.label', default: 'Reponse')])}</g:link>
 </li>

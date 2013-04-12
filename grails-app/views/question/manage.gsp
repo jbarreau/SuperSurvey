@@ -36,6 +36,7 @@
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><a href = "${createLink(uri: '/')}/question/show/${questionInstance.id}"></a></li>
 			</ul>
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
@@ -56,7 +57,7 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>
-				<!-- 
+				 
 						<table id="edit-reponse">
 							<tr>
 								<th>#</th>
@@ -64,18 +65,16 @@
 								<th>Count</th>
 								<th>Actions</th>
 							</tr>
-							<tr>
 							<g:each in="${questionInstance?.reponses?}" var="r">
-								<td>${r.id}</td>
-								<td><g:link controller="reponse" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
-								<td>${r?.nbVotes}</td>
-								    	<td>
-								    		<a href="#" class="add-reponse">Ajouter</a>
-								    	</td>
+								<tr>
+									<td>${r.id}</td>
+									<td><g:link controller="reponse" action="edit" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
+									<td>${r?.nbVotes}</td>
+							    	<td><a href="#" class="add-reponse">Ajouter</a></td>
+								</tr>
 							</g:each>
-							</tr>
 						</table>
-				 -->
+				
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
