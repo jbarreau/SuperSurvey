@@ -36,6 +36,7 @@
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><a href = "${createLink(uri: '/')}/question/show/${questionInstance.id}"></a></li>
 			</ul>
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
@@ -67,7 +68,7 @@
 							<g:each in="${questionInstance?.reponses?}" var="r">
 								<tr>
 									<td>${r.id}</td>
-									<td><g:link controller="reponse" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
+									<td><g:link controller="reponse" action="edit" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
 									<td>${r?.nbVotes}</td>
 							    	<td><a href="#" class="add-reponse">Ajouter</a></td>
 								</tr>
