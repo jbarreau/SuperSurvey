@@ -129,8 +129,6 @@ class QuestionController {
 	 * @return
 	 */
 	def proposer(Long id){
-		println params
-		println "id : " + id
 		def questionInstance = Question.get(id)
 	
 		if (!questionInstance) {
@@ -142,8 +140,8 @@ class QuestionController {
 		def reponseInstance = new Reponse(
 			text: params.reponse,
 			question: questionInstance,
-			visible: false,
-			correcte: false
+			visible: true,
+			correcte: true
 		)
 		reponseInstance.save()
 		
