@@ -56,6 +56,26 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>
+				<!-- 
+						<table id="edit-reponse">
+							<tr>
+								<th>#</th>
+								<th>Réponse</th>
+								<th>Count</th>
+								<th>Actions</th>
+							</tr>
+							<tr>
+							<g:each in="${questionInstance?.reponses?}" var="r">
+								<td>${r.id}</td>
+								<td><g:link controller="reponse" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
+								<td>${r?.nbVotes}</td>
+								    	<td>
+								    		<a href="#" class="add-reponse">Ajouter</a>
+								    	</td>
+							</g:each>
+							</tr>
+						</table>
+				 -->
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
