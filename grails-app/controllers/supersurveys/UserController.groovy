@@ -6,6 +6,8 @@ class UserController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	def shiroSecurityService
+	
     def index() {
         redirect(action: "list", params: params)
     }
@@ -20,7 +22,15 @@ class UserController {
     }
 
     def save() {
-        def userInstance = new User(params)
+        def userInstance// = new User(params)
+		println params
+		userInstance = new User(
+			username: params.username,
+			passwordHash: shiroSecurityService.encodePassword(params.password),
+			nom: params.nom,
+			prenom: params.prenom,
+			email: params.email
+		)
         if (!userInstance.save(flush: true)) {
             render(view: "create", model: [userInstance: userInstance])
             return

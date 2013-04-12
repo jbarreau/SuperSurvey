@@ -26,12 +26,20 @@
 	<g:field type="email" name="email" required="" value="${userInstance?.email}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'username', 'error')} required">
+	<label for="username">
+		<g:message code="user.username.label" default="Nom" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="username" required="" value="${userInstance?.username}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} ">
 	<label for="password">
 		<g:message code="user.password.label" default="Password" />
 		
 	</label>
-	<g:textField name="password" value="${userInstance?.password}"/>
+	<g:textField name="password" value="" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'questions', 'error')} ">

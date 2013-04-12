@@ -1,19 +1,20 @@
 package supersurveys
 
 class User {
+    String username
+    String passwordHash
 	String nom
 	String prenom
 	String email
-	String password
 	
-	static hasMany = [questions:Question]
+    static hasMany = [ questions:Question, roles: Role, permissions: String ]
 
     static constraints = {
+        username(nullable: false, blank: false, unique: true)
     	nom nullable: false, blank: false
 		prenom nullable: false, blank: true
 		email nullable: false, blank: false, email: true, unique: true
-		password nullable: false, minSize: 3
-	}
+    }
 	
 	public String toString(){
 		return nom + " " + prenom

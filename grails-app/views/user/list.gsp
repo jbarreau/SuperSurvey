@@ -30,8 +30,6 @@
 					
 						<g:sortableColumn property="email" title="${message(code: 'user.email.label', default: 'Email')}" />
 					
-						<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
@@ -43,8 +41,6 @@
 						<td>${fieldValue(bean: userInstance, field: "prenom")}</td>
 					
 						<td>${fieldValue(bean: userInstance, field: "email")}</td>
-					
-						<td>${fieldValue(bean: userInstance, field: "password")}</td>
 					
 					</tr>
 				</g:each>
