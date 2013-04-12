@@ -31,7 +31,7 @@ class QuestionController {
         redirect(action: "edit", id: questionInstance.id)
     }
 	
-def isProfLogged = true
+	def isProfLogged = false
     
 	def show(Long id) {
         def questionInstance = Question.get(id)
@@ -47,6 +47,7 @@ def isProfLogged = true
 				if(isProfLogged){
 					render(view: "manage", model:[questionInstance: questionInstance])
 				}else{
+					render(view: "proposer", model:[questionInstance: questionInstance])
 				}
 			
 				
@@ -120,6 +121,36 @@ def isProfLogged = true
             redirect(action: "show", id: id)
         }
     }
+	
+	/**
+	 * Traitement du formulaire de la proposition d'une réponse par un élève
+	 * Puis redirection vers la question en question
+	 * @param id
+	 * @return
+	 */
+	def proposer(Long id){
+		println params
+		println "id : " + id
+		def questionInstance = Question.get(id)
+	
+		if (!questionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
+			redirect(action: "index")
+			return
+		}
+		
+		def reponseInstance = new Reponse(
+			text: params.reponse,
+			question: questionInstance,
+			visible: false,
+			correcte: false
+		)
+		reponseInstance.save()
+		
+		flash.message = "Votre proposition a bien été prise en compte, merci pour votre participation"
+		redirect(action:"show", id: id)
+		
+	}
 	
 	def startVote(Long id){
 		Question.get(id).etat = Etat.inVote

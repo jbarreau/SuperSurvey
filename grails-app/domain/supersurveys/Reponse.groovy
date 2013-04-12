@@ -3,9 +3,9 @@ package supersurveys
 class Reponse {
 	
 	String text
-	boolean visible
-	boolean correcte
-	int nbVotes
+	boolean visible = true
+	boolean correcte = false
+	int nbVotes = 0
 	
 	static belongsTo = [question : Question]
 	static hasMany = [commentaires : Commentaire]
