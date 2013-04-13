@@ -26,13 +26,12 @@
 	<g:field name="temps" type="number" min="5" value="${questionInstance.temps}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'nbVotes', 'error')} required">
+ <div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'nbVotes', 'error')} ">
 	<label for="nbVotes">
 		<g:message code="question.nbVotes.label" default="Nb Votes" />
-		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="nbVotes" type="number" value="${questionInstance.nbVotes}" required=""/>
-</div>
+	<g:field name="nbVotes" disable="disable" readonly="readonly" type="number" value="${questionInstance.nbVotes}"  />
+</div>  
 
 <div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'type', 'error')} required">
 	<label for="type">

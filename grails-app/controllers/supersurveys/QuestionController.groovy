@@ -195,16 +195,16 @@ class QuestionController {
 		if(params.reponseId != null){
 			
 			// A desactivé pr les tests
-			if(session["dejavote"+questionInstance.id]){
+			/*if(session["dejavote"+questionInstance.id]){
 				flash.message = "Vous avez déjà voté, merci de ne pas tricher :D"
 				redirect(action: "show", id:questionInstance.id)
 				return
-			}
+			}*/
 			
 			def criteria = Reponse.createCriteria()
 			def reponsesInstances
 			def reponsesVotees = []
-			params.reponseId.each({ reponsesVotees.push((long)it)})
+			params.reponseId.each({ reponsesVotees.push(Long.decode(new String(it)))})
 	
 			// On récupere les instances des réponses votées
 			reponsesInstances = criteria.list {
@@ -216,8 +216,9 @@ class QuestionController {
 			
 			// on met à jour les stats
 			reponsesInstances.each {
-				it.setNbVotes(it.nbVotes+1)
-				if(!it.save()){
+				Reponse r = it
+				r.setNbVotes(r.nbVotes+1)
+				if(!r.save()){
 					flash.message =  "Erreur à l'enregistrement du vote"
 					render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees])
 					return
