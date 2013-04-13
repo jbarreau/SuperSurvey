@@ -1,7 +1,12 @@
 package supersurveys
 
+import javax.security.auth.Subject
 import javax.swing.text.View;
 
+import org.apache.shiro.grails.ShiroAnnotationHandlerService;
+import org.apache.shiro.grails.ShiroBasicPermission;
+import org.apache.shiro.grails.ShiroSecurityService;
+import org.apache.shiro.grails.ShiroTagLib;
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionController {
@@ -33,7 +38,6 @@ class QuestionController {
         redirect(action: "edit", id: questionInstance.id)
     }
 	
-	def isProfLogged = false
     
 	def show(Long id) {
         def questionInstance = Question.get(id)
@@ -43,11 +47,8 @@ class QuestionController {
             return
         }
 		
-		Question q = Question.get(id);
-		
-		questionInstance.setEtat(Etat.inVote) // Juste pour le test
-        
-		
+		def isProfLogged = true // for developing //SecurityUtils.subject
+		//questionInstance.setEtat(Etat.inVote) // Juste pour le test
 		switch (questionInstance.etat){
 			case Etat.inCompletion:
 				if(isProfLogged){
@@ -55,20 +56,25 @@ class QuestionController {
 				}else{
 					render(view: "proposer", model:[questionInstance: questionInstance])
 				}
-			
-				
 				break
 			case Etat.inVote:
-				//render(view: "voter", model:[questionInstance: questionInstance])
-				flash.message = flash.message // chelou mais necessaire ^^ 
-				redirect(action:"voter", id:questionInstance.id)
+				if(isProfLogged){
+					render(view: "manage", model:[questionInstance: questionInstance])
+				}else{
+					//render(view: "voter", model:[questionInstance: questionInstance])
+					flash.message = flash.message // chelou mais necessaire ^^ // sa metonnerai
+					redirect(action:"voter", id:questionInstance.id)
+				}
 				break
 			case Etat.close:
+				if(isProfLogged){
+					render(view: "manage", model:[questionInstance: questionInstance])
+				}else{
+					redirect(action:"showStat", id:questionInstance.id)
+				}
 				break
 			default: break
 		}
-		
-		
     }
 
     def edit(Long id) {
@@ -159,12 +165,14 @@ class QuestionController {
 	}
 	
 	def startVote(Long id){
-		Question.get(id).etat = Etat.inVote
-		render(view: "vote", model: [questionInstance: questionInstance])
+		def questionInstance = Question.get(id)
+		questionInstance.etat = Etat.inVote
+		render(view: "voter",model:[questionInstance: questionInstance])
 	}
 	
 	def cloture(Long id){
-		Question.get(id).etat = Etat.close//close
+		def questionInstance = Question.get(id)
+		questionInstance.etat = Etat.close
 		redirect(action: "showStat", id: questionInstance.id)
 	}
 	
@@ -183,7 +191,7 @@ class QuestionController {
 		}
 		
 		
-		// Si on a envoyé le formulaure, alors on le traite
+		// Si on a envoyé le formulaire, alors on le traite
 		if(params.reponseId != null){
 			
 			// A desactivé pr les tests
@@ -216,7 +224,7 @@ class QuestionController {
 				}
 			}
 			questionInstance.setNbVotes(questionInstance.nbVotes+1)
-			if(questionInstance.save()){
+			if(!questionInstance.save()){
 				flash.message =  "Erreur à l'enregistrement du vote"
 				render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees.toList()])
 				return
@@ -235,6 +243,7 @@ class QuestionController {
 	}
 	
 	def showStat(Long id){
+        def questionInstance = Question.get(id)
 		if (Question.get(id).etat==Etat.close)
 			render(view: "showStat", model: [questionInstance: questionInstance])
 	}

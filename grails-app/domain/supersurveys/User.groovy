@@ -11,6 +11,7 @@ class User {
 
     static constraints = {
         username(nullable: false, blank: false, unique: true)
+        passwordHash(nullable: false, blank: false	 )
     	nom nullable: false, blank: false
 		prenom nullable: false, blank: true
 		email nullable: false, blank: false, email: true, unique: true

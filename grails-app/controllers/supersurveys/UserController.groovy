@@ -23,7 +23,7 @@ class UserController {
 
     def save() {
         def userInstance// = new User(params)
-		println params
+		//println params
 		userInstance = new User(
 			username: params.username,
 			passwordHash: shiroSecurityService.encodePassword(params.password),

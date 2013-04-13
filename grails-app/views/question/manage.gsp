@@ -77,6 +77,9 @@
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:actionSubmit class="" action="startVote" value="d&eacute;marer le vote de la question" />
+					<g:actionSubmit class="" action="cloture" value="terminer le vote" />
+					<g:actionSubmit class="" action="showStat" value="voir statistiques" />
 				</fieldset>
 			</g:form>
 		</div>
