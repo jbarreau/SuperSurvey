@@ -4,7 +4,7 @@ enum TypeQuestion{
 	ChoixMultiple,ChoixSimple	
 }
 
-enum Etat{
+public enum Etat{
 	inCompletion,inVote,close//ChoixMultiple,ChoixSimple//cr��, en cour, ferm�	
 }
 

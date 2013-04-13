@@ -624,3 +624,51 @@ a.skip {
 .tableau-de-bord .section .section-contenu{
 	padding: 10px;
 } 
+
+
+/**
+ * Page du vote
+ */
+#vote-contenu-question{
+	margin: 20px 0px;
+}
+#vote-question-text{
+	font-size: 1.25em;
+	text-align: center;
+	color: #333;
+}
+#vote-reponses{
+	margin: 10px 15em;
+}
+.vote-reponse{
+	padding: 10px 5px;
+}
+.vote-reponse:hover{
+	background: #eee;
+	border-radius: 2px;
+}
+.vote-reponse input{
+	float: left;
+	position:relative;
+	top: 2px;
+}
+.vote-reponse label{
+	float: left;
+	margin-left: 20px;
+}
+
+#vote-submit {
+	text-align: center;
+}
+#vote-submit input{
+	font-size:1.2em;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+#vote-submit input:hover{
+	border: 2px solid #390;
+	padding: 9px 18px;
+	background: #fff;
+}
+

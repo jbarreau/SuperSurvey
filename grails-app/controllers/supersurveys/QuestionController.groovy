@@ -1,5 +1,7 @@
 package supersurveys
 
+import javax.swing.text.View;
+
 import org.springframework.dao.DataIntegrityViolationException
 
 class QuestionController {
@@ -40,8 +42,12 @@ class QuestionController {
             redirect(action: "list")
             return
         }
+		
 		Question q = Question.get(id);
+		
+		questionInstance.setEtat(Etat.inVote) // Juste pour le test
         
+		
 		switch (questionInstance.etat){
 			case Etat.inCompletion:
 				if(isProfLogged){
@@ -51,16 +57,18 @@ class QuestionController {
 				}
 			
 				
-			break
+				break
 			case Etat.inVote:
-				
-			break
+				//render(view: "voter", model:[questionInstance: questionInstance])
+				flash.message = flash.message // chelou mais necessaire ^^ 
+				redirect(action:"voter", id:questionInstance.id)
+				break
 			case Etat.close:
-				
-			break
-			
+				break
+			default: break
 		}
-
+		
+		
     }
 
     def edit(Long id) {
@@ -158,6 +166,72 @@ class QuestionController {
 	def cloture(Long id){
 		Question.get(id).etat = Etat.close//close
 		redirect(action: "showStat", id: questionInstance.id)
+	}
+	
+	/**
+	 * Traitement de la réponse à un vote
+	 * @param id
+	 * @return
+	 */
+	def voter(Long id){
+		def questionInstance = Question.get(id)
+		
+		if (!questionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
+			redirect(action: "show", id:questionInstance.id)
+			return
+		}
+		
+		
+		// Si on a envoyé le formulaure, alors on le traite
+		if(params.reponseId != null){
+			
+			// A desactivé pr les tests
+			if(session["dejavote"+questionInstance.id]){
+				flash.message = "Vous avez déjà voté, merci de ne pas tricher :D"
+				redirect(action: "show", id:questionInstance.id)
+				return
+			}
+			
+			def criteria = Reponse.createCriteria()
+			def reponsesInstances
+			def reponsesVotees = []
+			params.reponseId.each({ reponsesVotees.push((long)it)})
+	
+			// On récupere les instances des réponses votées
+			reponsesInstances = criteria.list {
+				'in'("id",reponsesVotees)
+				question{ // On verrifie qu'on est sur la bonne question
+					idEq((long)questionInstance.id)
+				}
+			}
+			
+			// on met à jour les stats
+			reponsesInstances.each {
+				it.setNbVotes(it.nbVotes+1)
+				if(!it.save()){
+					flash.message =  "Erreur à l'enregistrement du vote"
+					render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees])
+					return
+				}
+			}
+			questionInstance.setNbVotes(questionInstance.nbVotes+1)
+			if(questionInstance.save()){
+				flash.message =  "Erreur à l'enregistrement du vote"
+				render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees.toList()])
+				return
+			}
+			
+			// On sauvegarde le fait que le membre a voté
+			session["dejavote"+questionInstance.id] = true
+			
+			flash.message = "Votre vote a bien été pris en compte. Merci pour votre participation. :)"
+			redirect(action:"show", id:questionInstance.id)
+			return
+		}
+		println flash.message
+		//redirect(action:"show", id:questionInstance.id)
+		render(view: "voter", model:[questionInstance: questionInstance])
 	}
 	
 	def showStat(Long id){
