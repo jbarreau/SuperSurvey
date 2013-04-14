@@ -19,7 +19,10 @@
 		<r:layoutResources />
 	</head>
 	<body>
-		<div id="header" role="banner"><a href="#"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo (à changer)"/></a></div>
+		<div id="header" role="banner">
+			<a href="#"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo (à changer)"/></a>
+			<g:logged/>
+		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"> SuperSurvey - 2013 - GPL ??! </div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

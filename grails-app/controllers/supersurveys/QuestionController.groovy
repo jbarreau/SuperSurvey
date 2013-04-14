@@ -1,8 +1,11 @@
 package supersurveys
 
-import javax.security.auth.Subject
+
+
+//import javax.security.auth.Subject
 import javax.swing.text.View;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.grails.ShiroAnnotationHandlerService;
 import org.apache.shiro.grails.ShiroBasicPermission;
 import org.apache.shiro.grails.ShiroSecurityService;
@@ -47,11 +50,11 @@ class QuestionController {
             return
         }
 		
-		def isProfLogged = true // for developing //SecurityUtils.subject
+		def isProfLogged = SecurityUtils.subject //true // for developing
 		//questionInstance.setEtat(Etat.inVote) // Juste pour le test
 		switch (questionInstance.etat){
 			case Etat.inCompletion:
-				if(isProfLogged){
+				if(SecurityUtils.subject){
 					render(view: "manage", model:[questionInstance: questionInstance])
 				}else{
 					render(view: "proposer", model:[questionInstance: questionInstance])
