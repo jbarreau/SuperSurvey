@@ -6,7 +6,7 @@ class ConectedTagLib {
 		def u = SecurityUtils.getSubject().getPrincipal()
 
 		if (!u){
-			out << "non connect&eacute;"
+			out << "non connect&eacute; <br/> <a href = \"adrDeLogin\">connection</a>" 
 		}else{
 			out << "connect&eacute; en tant que " << User.findByUsername(u)
 		}
