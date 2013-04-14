@@ -12,7 +12,7 @@ class SecurityFilters {
             before = {
 				// Si on est dans le controleur "accout" ou "user"
 				// on bloque l'accès aux non identifiés
-                if (controllerName != "account" && controllerName != "user") return true
+                if (controllerName != "account" || controllerName != "user") return true
 
                 // Access control by convention.
                 accessControl()
