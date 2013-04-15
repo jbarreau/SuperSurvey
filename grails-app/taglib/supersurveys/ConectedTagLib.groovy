@@ -6,9 +6,10 @@ class ConectedTagLib {
 		def u = SecurityUtils.getSubject().getPrincipal()
 
 		if (!u){
-			out << "non connect&eacute; <br/> <a href = \"${createLink(uri: '/auth/login')}\">connection</a>" 
+			out << "non connect&eacute; <br/> <a href = \"${createLink(uri: '/auth/login')}\">connexion</a>" 
 		}else{
-			out << "connect&eacute; en tant que " << User.findByUsername(u) << "<br/>"
+			out << "connect&eacute; en tant que " << User.findByUsername(u) << "<br/>" <<
+			"<a href = \"${createLink(uri: '/auth/signOut')}\">deconnexion</a>"
 		}
 	}//
 }

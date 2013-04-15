@@ -81,6 +81,19 @@
 				}
 			}
 		</style>
+		<script type="text/javascript">
+			(function ($){
+				$(document).ready(function(){
+					$('#allerQuestion').click(function(){
+						var link="${createLink(controller:"Question", action:"show")}"
+						var idQ= $('#questNum').val()
+						link += "/"+idQ
+						if (idQ != "")
+							window.location=link
+					})
+				})
+			})(jQuery)
+		</script>
 	</head>
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -90,16 +103,22 @@
 			<h2>L'application qui va vous permettre de communiquer, enfin, avec vos profs ;)</h2>
 
 			<g:conteneur>
-				<g:section titre="Je suis un professeur">
-					<ul>
-						<li>Se connecter à mon compte</li>
-					</ul>
-				</g:section>
 				<g:section titre="Je suis un étudiant">
 					<ul>
-						<li>Voir la liste des questions</li>
+						<li>Voir la question n°</li>
+						<li><input type="number" id="questNum"/></li>
+						<li><input type="button" id="allerQuestion" value="aller &agrave; la question"/></li>
 					</ul>
 				</g:section>
+				<shiro:isLoggedIn>
+					<g:section titre="Je suis un professeur">
+						<ul>
+							<!-- <li><g:set var="profId" value="" />
+							<g:link controller="Question" action="list" 
+							params="[profId]">voir mes questions</g:link></li> -->
+						</ul>
+					</g:section>
+				</shiro:isLoggedIn>
 			</g:conteneur>
 
 			<div id="controller-list" role="navigation">
