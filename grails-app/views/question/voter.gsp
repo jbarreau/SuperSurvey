@@ -29,9 +29,6 @@
 				<div id="vote-reponses">
 					<g:each var="reponse" in="${ questionInstance.reponses }">
 						<div class="vote-reponse">
-							<g:if test="${ session['dejavote'+questionInstance.id] != null && session['dejavote'+questionInstance.id] == true}">
-							Deja voté
-							</g:if>
 							<g:if test="${questionInstance.type == supersurveys.TypeQuestion.ChoixMultiple}">
 								<g:checkBox name="reponseId" id="reponseWidget${reponse.id}" value="${reponse.id}" 
 									checked="${false && defaultValues?.contains(questionInstance.id)}"
