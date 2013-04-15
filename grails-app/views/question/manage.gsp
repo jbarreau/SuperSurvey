@@ -78,8 +78,8 @@
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 					<g:link class="" action="startVote" id="${questionInstance.id}">d&eacute;marer le vote de la question</g:link>
-					<g:actionSubmit class="" action="cloture" value="terminer le vote" />
-					<g:actionSubmit class="" action="showStat" value="voir statistiques" />
+					<g:link class="" action="cloture" id="${questionInstance.id}">terminer le vote</g:link>
+					<g:link class="" action="showStat" id="${questionInstance.id}">voir statistiques</g:link>
 				</fieldset>
 			</g:form>
 		</div>
