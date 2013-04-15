@@ -50,7 +50,7 @@ class QuestionController {
             return
         }
 		
-		def isProfLogged = SecurityUtils.subject //true // for developing
+		def isProfLogged = SecurityUtils.subject.isAuthenticated() //true // for developing
 		//questionInstance.setEtat(Etat.inVote) // Juste pour le test
 		switch (questionInstance.etat){
 			case Etat.inCompletion:
@@ -170,7 +170,9 @@ class QuestionController {
 	def startVote(Long id){
 		def questionInstance = Question.get(id)
 		questionInstance.etat = Etat.inVote
-		render(view: "voter",model:[questionInstance: questionInstance])
+		questionInstance.save()
+		redirect(action:"show",id:questionInstance.id)
+		//render(view: "voter",model:[questionInstance: questionInstance])
 	}
 	
 	def cloture(Long id){
