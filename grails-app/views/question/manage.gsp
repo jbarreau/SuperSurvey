@@ -9,9 +9,44 @@
 		<g:javascript>
 			(function($){
 				$(document).ready(function(){
-					var formElement = $(".edit-reponse form");
+					var uptRep = $(".add-reponse")
+						.click(function(){
+							var corr = $("#newRepCorrecte").is(":checked")
+							var visible = $("#newRepVisible").is(":checked")
+							var txt= $("#newRepTxt").val()
+						alert(txt)
+							
+							var idQuest =  $("#idQuest").val()
+							$.ajax({
+								data : {
+									correcte : corr,
+									visible : visible,
+									text : txt,
+									idQuest : idQuest
+								},
+								type:"POST",
+								url :" ${createLink(uri: '/reponse/saveAJAX')}" ,
+								success: function(data){
+									alert(data)
+									/*$(".edit-reponse").append(
+										'<tr>'+
+											'<td>'+data+'</td>'+
+											'<td><input type="text" id="RepTxt" value=""/></td>'+
+											'<td></td>'+
+											'<td></td>'+
+											'<td></td>'+
+									    	'<td>'+
+									    		'<a href="#" class="update-reponse">update</a><br>'+
+									    		'<a href="#" class="delete-reponse">delete</a><br>'+
+									    	'</td>'+
+										'</tr>'
+									)*/
+								}
+							})
+						return false
+						})
 					
-					$(formElement).ajaxForm({ //return;
+					/* $(formElement).ajaxForm({ //return;
 					
 						beforeSubmit: function(formData, jqForm, options) { 
     						var queryString = $.param(formData); 
@@ -24,7 +59,7 @@
 						 },
 						success: function(){ $(formElement).animate({opacity:1}) },
 						error: function(){ $(formElement).animate({opacity:1}) }
-					});
+					}); */
 				});
 			})(jQuery);
 		</g:javascript>
@@ -51,7 +86,7 @@
 			</ul>
 			</g:hasErrors>
 			<g:form method="post" >
-				<g:hiddenField name="id" value="${questionInstance?.id}" />
+				<g:hiddenField name="id" id="idQuest" value="${questionInstance?.id}" />
 				<g:hiddenField name="version" value="${questionInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
@@ -59,17 +94,49 @@
 				 
 						<table id="edit-reponse">
 							<tr>
-								<th>#</th>
+								<th>#id</th>
 								<th>Réponse</th>
 								<th>Count</th>
+								<th>Visible</th>
+								<th>Correct</th>
 								<th>Actions</th>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="text" id="newRepTxt"/></td>
+								<td></td>
+								<td><input type="checkbox" id="newRepVisible"></td>
+								<td><input type="checkbox" id="newRepCorrecte"></td>
+						    	<td><a href="#" class="add-reponse">Ajouter</a></td>
 							</tr>
 							<g:each in="${questionInstance?.reponses?}" var="r">
 								<tr>
 									<td>${r.id}</td>
-									<td><g:link controller="reponse" action="edit" id="${r.id}">${r?.encodeAsHTML()}</g:link></td>
+									<td><input type="text" id="RepTxt" value="${r?.text}"/></td>
 									<td>${r?.nbVotes}</td>
-							    	<td><a href="#" class="add-reponse">Ajouter</a></td>
+									<td>${r?.visible}</td>
+									<td>${r?.correcte}</td>
+							    	<td>
+							    		<a href="#" class="update-reponse">update</a><br>
+							    		<a href="#" class="delete-reponse">delete</a><br>
+							    	</td>
+								</tr>
+								<tr >
+									<td colspan="6">
+										<table>
+											<g:each in="${r?.commentaires }" var ="c">
+												<tr>
+													<td><input type="text" id="ComTxt" value="${c?.text}"/></td>
+													<td><a href="#" class="update-Comm">update</a><br>
+											    		<a href="#" class="delete-Comm">delete</a><br></td>
+												</tr>
+											</g:each>
+												<tr>
+													<td><input type="text" id="newComTxt" /></td>
+													<td><a href="#" class="add-Comm">Ajouter</a></td>
+												</tr>
+										</table>
+									</td>
 								</tr>
 							</g:each>
 						</table>

@@ -48,9 +48,9 @@
 	</label>
 	
 
-<li class="add">
+<!-- <li class="add">
 <g:link controller="reponse" action="create" params="['question.id': questionInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'reponse.label', default: 'Reponse')])}</g:link>
-</li>
+</li> -->
 </ul>
 
 </div>

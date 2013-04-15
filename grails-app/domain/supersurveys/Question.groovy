@@ -5,7 +5,7 @@ enum TypeQuestion{
 }
 
 public enum Etat{
-	inCompletion,inVote,close//ChoixMultiple,ChoixSimple//cr��, en cour, ferm�	
+	inCompletion,inVote,close//ChoixMultiple,ChoixSimple//créé, en cour, fermé	
 }
 
 class Question {

@@ -1,5 +1,6 @@
 package supersurveys
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class ReponseController {
@@ -14,18 +15,29 @@ class ReponseController {
         params.max = Math.min(max ?: 10, 100)
         [reponseInstanceList: Reponse.list(params), reponseInstanceTotal: Reponse.count()]
     }*/
+	
+	def save() {
+		def reponseInstance = new Reponse(params)
+		if (!reponseInstance.save(flush: true)) {
+			render(view: "create", model: [reponseInstance: reponseInstance])
+			return
+		}
 
-    def save() {
+		flash.message = message(code: 'default.created.message', args: [message(code: 'reponse.label', default: 'Reponse'), reponseInstance.id])
+		redirect(action: "edit", id: reponseInstance.id)
+	}
+	
+    def saveAJAX() {
+		params.question = Question.get(params.idQuest)
         def reponseInstance = new Reponse(params)
         if (!reponseInstance.save(flush: true)) {
             render(view: "create", model: [reponseInstance: reponseInstance])
             return
         }
-
-        flash.message = message(code: 'default.created.message', args: [message(code: 'reponse.label', default: 'Reponse'), reponseInstance.id])
-        redirect(action: "edit", id: reponseInstance.id)
+		
+		render reponseInstance as JSON
     }
-
+	
     def show(Long id) {
         def reponseInstance = Reponse.get(id)
         if (!reponseInstance) {
