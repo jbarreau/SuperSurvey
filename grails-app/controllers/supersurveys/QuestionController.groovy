@@ -54,7 +54,7 @@ class QuestionController {
 		//questionInstance.setEtat(Etat.inVote) // Juste pour le test
 		switch (questionInstance.etat){
 			case Etat.inCompletion:
-				if(SecurityUtils.subject){
+				if(isProfLogged){
 					render(view: "manage", model:[questionInstance: questionInstance])
 				}else{
 					render(view: "proposer", model:[questionInstance: questionInstance])
@@ -197,7 +197,7 @@ class QuestionController {
 		
 		
 		// Si on a envoyé le formulaire, alors on le traite
-		if(params.reponseId != null){
+		if(params.reponseId != null || params.reponseradio != null){
 			
 			// A desactivé pr les tests
 			/*if(session["dejavote"+questionInstance.id]){
@@ -208,9 +208,15 @@ class QuestionController {
 			
 			def criteria = Reponse.createCriteria()
 			def reponsesInstances
+			
+			// On unifie les résultats selon si on est radio ou checkbox
 			def reponsesVotees = []
-			params.reponseId.each({ reponsesVotees.push(Long.decode(new String(it)))})
-	
+			if(params.reponseId != null)
+				params.reponseId.each({ reponsesVotees.push(Long.decode(new String(it)))})
+			else
+				reponsesVotees.push(Long.decode(params.reponseradio))
+			
+				
 			// On récupere les instances des réponses votées
 			reponsesInstances = criteria.list {
 				'in'("id",reponsesVotees)

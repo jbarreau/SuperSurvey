@@ -25,7 +25,7 @@
 				<g:hiddenField name="id" value="${questionInstance?.id}" />
 				<g:hiddenField name="version" value="${questionInstance?.version}" />
 				<fieldset class="form">
-					<label for="reponse">Votre éponse: </label>
+					<label for="reponse">Votre réponse: </label>
 					<g:field type="text" name="reponse" id="reponse" />
 				</fieldset>
 				
