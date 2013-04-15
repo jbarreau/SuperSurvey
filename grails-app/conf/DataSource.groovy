@@ -26,7 +26,7 @@ environments {
     production {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:mysql://jouradain.no-ip.org/supersurvey?useUnicode=yes&characterEncoding=UTF-8"//"jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            url = "jdbc:mysql://127.0.0.1/supersurvey?useUnicode=yes&characterEncoding=UTF-8"//"jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             pooled = true
             properties {
                maxActive = -1
