@@ -23,7 +23,7 @@
 		<g:message code="question.temps.label" default="Temps" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="temps" type="number" min="5" value="${questionInstance.temps}" required=""/>
+	<g:field name="temps" type="number" min="5" value="${questionInstance?.temps}" required=""/>
 </div>
 
  <div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'nbVotes', 'error')} ">
