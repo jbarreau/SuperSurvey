@@ -43,6 +43,7 @@ class QuestionController {
         def questionInstance = new Question(params)
 		questionInstance.setEtat(Etat.inCompletion)
         if (!questionInstance.save(flush: true)) {
+			flash.message = "Erreur à la création de la question"
             render(view: "create", model: [questionInstance: questionInstance])
             return
         }
@@ -57,8 +58,16 @@ class QuestionController {
     }
 	
     
+	/**
+	 * Action aiguillage qui redirige vers la bonne action
+	 * en fonction de l'état de la question et et le role de l'utilisateur
+	 * 
+	 * @param id de la question
+	 * @return
+	 */
 	def show(Long id) {
         def questionInstance = Question.get(id)
+		
         if (!questionInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
             redirect(action: "list")
@@ -70,40 +79,32 @@ class QuestionController {
 		switch (questionInstance.etat){
 			case Etat.inCompletion:
 				if(isProfLogged){
-					render(view: "manage", model:[questionInstance: questionInstance])
+					//render(view: "manage", model:[questionInstance: questionInstance])
+					redirect(action:"manage", id:questionInstance.id)
 				}else{
-					render(view: "proposer", model:[questionInstance: questionInstance])
+					//render(view: "proposer", model:[questionInstance: questionInstance])
+					redirect(action:"proposer", id:questionInstance.id)
 				}
 				break
 			case Etat.inVote:
 				if(isProfLogged){
-					render(view: "manage", model:[questionInstance: questionInstance])
+					//render(view: "manage", model:[questionInstance: questionInstance])
+					redirect(action:"manage", id:questionInstance.id)
 				}else{
 					//render(view: "voter", model:[questionInstance: questionInstance])
-					flash.message = flash.message // chelou mais necessaire ^^ // sa metonnerai
+					flash.message = flash.message // chelou mais necessaire ^^ pour persister le flash.message // sa metonnerai
 					redirect(action:"voter", id:questionInstance.id)
 				}
 				break
 			case Etat.close:
 				if(isProfLogged){
-					render(view: "manage", model:[questionInstance: questionInstance])
+					redirect(action: "manage", id:questionInstance.id)
 				}else{
 					redirect(action:"showStat", id:questionInstance.id)
 				}
 				break
 			default: break
 		}
-    }
-
-    def edit(Long id) {
-        def questionInstance = Question.get(id)
-        if (!questionInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [questionInstance: questionInstance]
     }
 
     def update(Long id, Long version) {
@@ -155,6 +156,17 @@ class QuestionController {
         }
     }
 	
+	def manage(Long id){
+        def questionInstance = Question.get(id)
+        if (!questionInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
+            redirect(action: "list")
+            return
+        }
+		
+		render(view:"manage", model:[questionInstance:questionInstance])
+	}
+	
 	/**
 	 * Traitement du formulaire de la proposition d'une réponse par un élève
 	 * Puis redirection vers la question en question
@@ -170,6 +182,12 @@ class QuestionController {
 			return
 		}
 		
+		if(questionInstance.etat != Etat.inCompletion){
+			redirect(action: "show", id:questionInstance.id)
+			return
+		}
+		
+		// On récupère les paramètres en entrée
 		def reponseInstance = new Reponse(
 			text: params.reponse,
 			question: questionInstance,
@@ -185,6 +203,22 @@ class QuestionController {
 	
 	def startVote(Long id){
 		def questionInstance = Question.get(id)
+		
+		if (!questionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
+			redirect(action: "index")
+			return
+		}
+		
+		if(questionInstance.etat != Etat.inCompletion){
+			flash.message = 
+				question.etat == Etat.inVote ?
+				"La question est déjà en cours de vote"
+				: "Impossible de lancer la cette question"
+			redirect(action: "show", id:questionInstance.id)
+			return
+		}
+		
 		questionInstance.etat = Etat.inVote
 		questionInstance.save()
 		redirect(action:"show",id:questionInstance.id)
@@ -193,6 +227,18 @@ class QuestionController {
 	
 	def cloture(Long id){
 		def questionInstance = Question.get(id)
+		
+		if (!questionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
+			redirect(action: "index")
+			return
+		}
+
+		if(questionInstance.etat == Etat.Close){
+			flash.message = "Cette question est déjà fermée"
+			redirect(action: "show", id:questionInstance.id)
+			return
+		}
 		questionInstance.etat = Etat.close
 		redirect(action: "showStat", id: questionInstance.id)
 	}
@@ -265,7 +311,7 @@ class QuestionController {
 			redirect(action:"show", id:questionInstance.id)
 			return
 		}
-		println flash.message
+		
 		//redirect(action:"show", id:questionInstance.id)
 		render(view: "voter", model:[questionInstance: questionInstance])
 	}
