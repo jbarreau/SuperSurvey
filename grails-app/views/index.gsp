@@ -1,3 +1,5 @@
+<%@ page import="supersurveys.User" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -113,14 +115,15 @@
 				<shiro:isLoggedIn>
 					<g:section titre="Je suis un professeur">
 						<ul>
-							<!-- <li><g:set var="profId" value="" />
+							 <li><g:set var="profId" value="${User.findByUsername(org.apache.shiro.SecurityUtils.getSubject().getPrincipal()).id }" />
 							<g:link controller="Question" action="list" 
-							params="[profId]">voir mes questions</g:link></li> -->
+							params="[profId]">voir mes questions</g:link></li>
 						</ul>
 					</g:section>
 				</shiro:isLoggedIn>
 			</g:conteneur>
 
+<!-- div a supprimer pr la production -->
 			<div id="controller-list" role="navigation">
 				<h2>Available Controllers:</h2>
 				<ul>

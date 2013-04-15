@@ -20,9 +20,19 @@ class QuestionController {
         redirect(action: "list", params: params)
     }
 
-    def list(Integer max) {
+    /*def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [questionInstanceList: Question.list(params), questionInstanceTotal: Question.count()]
+    }*/
+
+    def list(long idProf) {
+		Question.list(params)
+        def questionInstanceListRet = []
+		def user = User.findByUsername(SecurityUtils.getSubject().getPrincipal())
+		user.questions.each({
+			questionInstanceListRet.add(it)
+		})
+        [questionInstanceList: questionInstanceListRet, questionInstanceTotal: questionInstanceListRet.size()]
     }
 
     def create() {
@@ -37,6 +47,11 @@ class QuestionController {
             render(view: "create", model: [questionInstance: questionInstance])
             return
         }
+		//adding question to user.question
+		def u = User.findByUsername(SecurityUtils.getSubject().getPrincipal())
+		//println  u
+		u.questions.addToQuestions(questionInstance)
+		u.save()
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
         redirect(action: "edit", id: questionInstance.id)
@@ -111,6 +126,7 @@ class QuestionController {
         }
 
         questionInstance.properties = params
+		
 
         if (!questionInstance.save(flush: true)) {
             render(view: "edit", model: [questionInstance: questionInstance])
