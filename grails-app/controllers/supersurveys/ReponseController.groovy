@@ -104,4 +104,36 @@ class ReponseController {
 	def create() {
         [reponseInstance: new Reponse(params)]
     }
+	
+	
+	def proposerSave(){
+		def  id = params.idquestion
+		def questionInstance = Question.get(id)
+		if (!questionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
+			redirect(action: "index")
+			return
+		}
+		
+		if(questionInstance.etat != Etat.inCompletion){
+			redirect(action: "show", id:questionInstance.id)
+			return
+		}
+		
+		if(params != null){
+			// On récupère les paramètres en entrée
+			def reponseInstance = new Reponse(
+				text: params.reponse,
+				question: questionInstance,
+				visible: true,
+				correcte: true
+			)
+			reponseInstance.save()
+			redirect(action:"show", id:id)
+			return
+		}
+			
+		flash.message = "Votre proposition a bien été prise en compte, merci pour votre participation"
+		redirect(controller:"question", action:"show", id:questionInstance.id)	
+	}
 }

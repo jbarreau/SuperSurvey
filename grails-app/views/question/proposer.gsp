@@ -21,16 +21,15 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			
-			<g:form action="proposer" method="post">
-				<g:hiddenField name="id" value="${questionInstance?.id}" />
-				<g:hiddenField name="version" value="${questionInstance?.version}" />
+			<g:form controller="reponse" action="proposerSave" method="post">
+				<g:hiddenField name="idquestion" value="${questionInstance?.id}" />
 				<fieldset class="form">
 					<label for="reponse">Votre réponse: </label>
 					<g:field type="text" name="reponse" id="reponse" />
 				</fieldset>
 				
 				<fieldset class="buttons">
-					<g:actionSubmit class="save" action="proposer" value="Proposer" />
+					<g:actionSubmit class="save" controller="reponse" action="proposerSave" value="Proposer" />
 				</fieldset>
 			</g:form>
 		</div>

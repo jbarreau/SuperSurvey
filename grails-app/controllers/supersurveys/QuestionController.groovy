@@ -159,7 +159,6 @@ class QuestionController {
 	 */
 	def proposer(Long id){
 		def questionInstance = Question.get(id)
-	
 		if (!questionInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
 			redirect(action: "index")
@@ -170,18 +169,8 @@ class QuestionController {
 			redirect(action: "show", id:questionInstance.id)
 			return
 		}
-		
-		// On récupère les paramètres en entrée
-		def reponseInstance = new Reponse(
-			text: params.reponse,
-			question: questionInstance,
-			visible: true,
-			correcte: true
-		)
-		reponseInstance.save()
-		
-		flash.message = "Votre proposition a bien été prise en compte, merci pour votre participation"
-		redirect(action:"show", id: id)
+			
+		render(view:"proposer", model:[questionInstance:questionInstance])
 		
 	}
 	

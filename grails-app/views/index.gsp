@@ -104,11 +104,11 @@
 
 			<g:conteneur>
 				<g:section titre="Je suis un étudiant">
-					<ul>
-						<li>Voir la question n°</li>
-						<li><input type="number" id="questNum"/></li>
-						<li><input type="button" id="allerQuestion" value="aller &agrave; la question"/></li>
-					</ul>
+					<div style="text-align:center;line-height:30px;">
+						Aller à la question n°<br />
+						<input type="number" id="questNum" size="3"/>
+						<input type="button" id="allerQuestion" value="Go" style=""/>
+					</div>
 				</g:section>
 				<shiro:isLoggedIn>
 					<g:section titre="Je suis un professeur">
