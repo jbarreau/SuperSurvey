@@ -123,12 +123,12 @@ class ReponseController {
 		def questionInstance = Question.get(id)
 		if (!questionInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
-			redirect(action: "index")
+			redirect(controller:"question",action: "index")
 			return
 		}
 		
 		if(questionInstance.etat != Etat.inCompletion){
-			redirect(action: "show", id:questionInstance.id)
+			redirect(controller:"question", action: "show", id:questionInstance.id)
 			return
 		}
 		
@@ -141,7 +141,7 @@ class ReponseController {
 				correcte: true
 			)
 			reponseInstance.save()
-			redirect(action:"show", id:id)
+			redirect(controller:"question", action:"show", id:id)
 			return
 		}
 			
