@@ -29,6 +29,10 @@ class Question {
 		type nullable: false
     }
 	
+	static mapping = {
+		reponses sort:'id'
+	}
+	
 	public String toString(){
 		return text
 	}

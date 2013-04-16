@@ -50,11 +50,11 @@ class QuestionController {
 		//adding question to user.question
 		def u = User.findByUsername(SecurityUtils.getSubject().getPrincipal())
 		//println  u
-		u.questions.addToQuestions(questionInstance)
+		u.addToQuestions(questionInstance)
 		u.save()
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
-        redirect(action: "edit", id: questionInstance.id)
+        redirect(action: "show", id: questionInstance.id)
     }
 	
     
@@ -223,7 +223,7 @@ class QuestionController {
 			return
 		}
 
-		if(questionInstance.etat == Etat.Close){
+		if(questionInstance.etat == Etat.close){
 			flash.message = "Cette question est déjà fermée"
 			redirect(action: "show", id:questionInstance.id)
 			return

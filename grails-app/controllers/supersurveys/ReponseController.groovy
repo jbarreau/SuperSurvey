@@ -5,7 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class ReponseController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST", saveAJAX: "POST"]
 
     /*def index() {
         redirect(action: "list", params: params)
@@ -28,10 +28,25 @@ class ReponseController {
 	}
 	
     def saveAJAX() {
-		params.question = Question.get(params.idQuest)
-        def reponseInstance = new Reponse(params)
+		def questionInstance = Question.get(params.idQuest)
+		if(!questionInstance){
+            render ([erreur: "Id de question inconnu"]) as JSON
+            return
+		}
+		println params
+		
+		def reponseInstance = 
+			params.id.toInteger() >= 0 ?
+			Reponse.get(params.id.toInteger())
+			: new Reponse(question:questionInstance)
+		
+		
+		reponseInstance.text = params.text
+		reponseInstance.correcte = params.correcte.equals("true")
+		reponseInstance.visible = params.visible.equals("true")
+		
         if (!reponseInstance.save(flush: true)) {
-            render(view: "create", model: [reponseInstance: reponseInstance])
+            render ([erreur: "Erreur à la sauvegarde"]) as JSON
             return
         }
 		

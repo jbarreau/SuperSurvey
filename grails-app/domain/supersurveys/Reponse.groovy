@@ -2,7 +2,7 @@ package supersurveys
 
 class Reponse {
 	
-	String text
+	String text = ""
 	boolean visible
 	boolean correcte
 	int nbVotes=0
