@@ -1,10 +1,11 @@
 package supersurveys
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class CommentaireController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST", saveAJAX: "POST"]
 
     /*def index() {
         redirect(action: "list", params: params)
@@ -30,6 +31,31 @@ class CommentaireController {
         redirect(action: "show", id: commentaireInstance.id)
     }
 
+	
+	def saveAJAX() {
+		//println params
+		def ReponseInstance = Reponse.get(params.idRep)
+		if(!ReponseInstance){
+			render ([erreur: "Id de reponse inconnu"]) as JSON
+			return
+		}
+		
+		def CommentaireInstance =
+			params.id.toInteger() >= 0 ?
+			Commentaire.get(params.id.toInteger())
+			: new Commentaire(reponse:ReponseInstance)
+		
+		
+		CommentaireInstance.text = params.text
+		
+		if (!CommentaireInstance.save(flush: true)) {
+			render ([erreur: "Erreur à la sauvegarde"]) as JSON 
+			return
+		}
+		
+		render CommentaireInstance as JSON
+	}
+	
     def show(Long id) {
         def commentaireInstance = Commentaire.get(id)
         if (!commentaireInstance) {

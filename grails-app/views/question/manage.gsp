@@ -5,83 +5,12 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'question.label', default: 'Question')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
-		<g:javascript src="jquery.form.js"></g:javascript>
-		<g:javascript>
-			(function($){
-				$(document).ready(function(){
-					$(document).on("click", $(".add-reponse, .update-reponse"), function(e){
-							if(!$(e.target).is('.add-reponse') && !$(e.target).is('.update-reponse')) return
-						
-							var parentLigne = $(e.target).parents('.repLigne');
-						
-							var id = $(e.target).is('.update-reponse') ? $(parentLigne).find('.RepId').val() : -1;
-							var corr = $(parentLigne).find('.RepCorrecte').is(':checked')
-							var visible = $(parentLigne).find('.RepVisible').is(':checked')
-							var txt = $(parentLigne).find('.RepTxt').val()
-							var idQuest =  $("#idQuest").val()
-							
-							
-							var dataToSend = {
-								correcte : corr,
-								visible : visible,
-								text : txt,
-								idQuest : idQuest,
-								id: id
-							}
-							
-							$.ajax({
-								data : dataToSend,
-								type:"POST",
-								url :" ${createLink(uri: '/reponse/saveAJAX')}" ,
-								success: function(data){
-									//alert('Retour: ' + JSON.stringify(data))
-									
-									if(id < 0){
-									
-									parentLigne = $(	'<tr class="repLigne">'+
-											'<td>'+data.id+'<input type="hidden" class="RepId" value="'+data.id+'"/></td>'+
-											'<td><input type="text" class="RepTxt" value="'+data.text+'"/></td>'+
-											'<td>'+data.nbVotes+'</td>'+
-											'<td>'+
-												'<input type="checkbox" class="RepVisible" '+(data.visible ? 'checked="checked"' : '')+' " />'+
-											'</td>'+
-											'<td>'+
-												'<input type="checkbox" class="RepCorrecte" '+(data.correcte ? 'checked="checked"' : '')+' " />'+
-											'</td>'+
-									    	'<td>'+
-									    		'<a href="#" class="update-reponse">update</a><br />'+
-									    		'<a href="#" class="delete-reponse">delete</a><br />'+
-							    				'<a href="#" class="voir-comm-reponse">Comm</a>'+
-									    	'</td>'+
-										'</tr>'+
-										'<tr class="repCommLigne">'+
-											'<td colspan="7">'+
-												'<table>'+
-													'<tr>'+
-														'<td><input type="text" class="newComTxt" /></td>'+
-														'<td><a href="#" class="add-Comm">Ajouter</a></td>'+
-													'</tr>'+
-												'</table>'+
-											'</td>'+
-										'</tr>' ).insertBefore($("#newRepLigne"))
-									 }
-									 
-									 $(parentLigne).css('opacity', .1).animate({opacity: 1})
-									
-								}
-							})
-						return false
-						})
-					$(document).on('click', $('.voir-comm-reponse'), function(e){
-						if(!$(e.target).is('.voir-comm-reponse')) return;
-						
-						// On affiche le tableau des commentaires
-						$(e.target).parents('.repLigne').next('.repCommLigne').toggle()
-						return false
-					})
-				});
-			})(jQuery);
+		<g:javascript src="jquery.form.js" >
+			var Repajax = "${createLink(controller:'reponse',action:'saveAJAX')}"
+			var Comajax = "${createLink(controller:'commentaire',action:'saveAJAX')}"
+		
 		</g:javascript>
+		<g:javascript src ="Manage.js"></g:javascript>
 		<style type="text/css">
 			.repCommLigne{
 				display: none;
@@ -126,7 +55,7 @@
 								<th>Actions</th>
 							</tr>
 							<g:each in="${questionInstance?.reponses?}" var="r">
-								<tr class="repLigne">
+								<tr class="repLigne" id="Rep${r.id}">
 									<td>${r.id}<input type="hidden" class="RepId" value="${r.id}"/></td>
 									<td><input type="text" id="RepTxt" value="${r?.text}" class="RepTxt"/></td>
 									<td>${r?.nbVotes }</td>
@@ -146,14 +75,15 @@
 									<td colspan="7">
 										<table>
 											<g:each in="${r?.commentaires }" var ="c">
-												<tr>
-													<td><input type="text" id="ComTxt" value="${c?.text}"/></td>
+												<tr class="CommLigne" id="Com${c.id}">
+													<td><input type="hidden" class="CommId" value="${c.id}"/>
+													<input type="text" id="ComTxt" value="${c?.text}"/></td>
 													<td><a href="#" class="update-Comm">update</a><br>
 											    		<a href="#" class="delete-Comm">delete</a><br></td>
 												</tr>
 											</g:each>
-												<tr>
-													<td><input type="text" class="newComTxt" /></td>
+												<tr id="newCommLigne" class="CommLigne">
+													<td><input type="text" class="ComTxt" /></td>
 													<td><a href="#" class="add-Comm">Ajouter</a></td>
 												</tr>
 										</table>

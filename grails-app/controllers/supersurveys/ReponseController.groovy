@@ -33,7 +33,6 @@ class ReponseController {
             render ([erreur: "Id de question inconnu"]) as JSON
             return
 		}
-		println params
 		
 		def reponseInstance = 
 			params.id.toInteger() >= 0 ?
