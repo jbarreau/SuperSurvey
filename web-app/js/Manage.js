@@ -170,10 +170,13 @@
 						var parentLigne = $(e.target).parents('.CommLigne');
 						$(parentLigne).css('opacity', .1).animate({opacity: 1})
 						alert("Com"+idCom)
-						$("tr").remove("Com"+idCom);
+						//$("tr").remove("Com"+idCom);
+						$(Ligne).remove();
 					}
 				}
 			});
+			
+			return false;
 		});
 		
 		//remove Rep
@@ -198,10 +201,13 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						$("tr").remove("Rep"+idRep);
+						//$("tr").remove("Rep"+idRep);
+						$(Ligne).remove();
 					}
 				}
 			});
+			
+			return false;
 		});
 		
 		//Show Com
