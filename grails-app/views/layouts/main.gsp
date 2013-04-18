@@ -21,7 +21,7 @@
 	<body>
 		<div id="header" role="banner">
 			<div style="float:right;"><g:logged/></div>
-			<a href="#"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo"/></a>
+			<a href="${createLink(uri: '/')}"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo"/></a>
 		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"> SuperSurvey - 2013 - GPL ??! </div>

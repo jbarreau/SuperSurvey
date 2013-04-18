@@ -82,7 +82,7 @@
 											    		<a href="#" class="delete-Comm">delete</a><br></td>
 												</tr>
 											</g:each>
-												<tr id="newCommLigne" class="CommLigne">
+												<tr id="newCommLigne${r?.id}" class="CommLigne">
 													<td><input type="text" class="ComTxt" /></td>
 													<td><a href="#" class="add-Comm">Ajouter</a></td>
 												</tr>

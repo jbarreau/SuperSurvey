@@ -123,7 +123,7 @@
 				</shiro:isLoggedIn>
 			</g:conteneur>
 
-<!-- div a supprimer pr la production -->
+<!-- div a supprimer pr la production 
 			<div id="controller-list" role="navigation">
 				<h2>Available Controllers:</h2>
 				<ul>
@@ -131,7 +131,7 @@
 						<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
 					</g:each>
 				</ul>
-			</div>
+			</div>-->
 		</div>
 	</body>
 </html>

@@ -106,6 +106,7 @@
 				text: txt,
 				id: id
 			}
+			
 			$.ajax({
 				data : dataToSend,
 				type:"POST",
@@ -113,7 +114,8 @@
 				success: function(data){
 					//alert('Retour: ' + JSON.stringify(data))
 					
-					if(id < 0){
+					if(TypeAction == "create"){
+
 					Ligne = $(	'<tr class="CommLigne">'+
 							'<td><input type="hidden" class="CommId" value="'+data.id+'"/>'+
 							'<input type="text" class="CommTxt" value="'+data.text+'"/></td>'+/*
@@ -124,17 +126,18 @@
 								'<a href="#" class="update-Comm">update</a><br />'+
 								'<a href="#" class="delete-Comm">delete</a><br />'+
 							'</td>'+
-						'</tr>').insertBefore($("#newCommLigne"))
+						'</tr>').insertBefore($("#newCommLigne"+idRep))
+						var parentLigne = $(e.target).parents('.CommLigne');
+						$(parentLigne).css('opacity', .1).animate({opacity: 1})
+						
+						$(e.target).parents(".CommLigne").find('.ComTxt').val("")
 					 }
 					
-					var parentLigne = $(e.target).parents('.CommLigne');
-					$(parentLigne).css('opacity', .1).animate({opacity: 1})
 					 
-					if (TypeAction == "create"){
-						$(parentLigne).find('.ComTxt').val("")
+					/*if (TypeAction == "create"){
 					}else if(TypeAction == "update"){
 						$(parentLigne).find('.ComTxt').val(data.text)
-					}
+					}*/
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
@@ -167,11 +170,8 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						var parentLigne = $(e.target).parents('.CommLigne');
-						$(parentLigne).css('opacity', .1).animate({opacity: 1})
-						alert("Com"+idCom)
-						//$("tr").remove("Com"+idCom);
-						$(Ligne).remove();
+						$(Ligne).slideUp()//.remove();
+						$(Ligne).css('opacity', .1).animate({opacity: 1})
 					}
 				}
 			});
@@ -201,8 +201,8 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						//$("tr").remove("Rep"+idRep);
-						$(Ligne).remove();
+						$(parentLigne).css('opacity', .1).animate({opacity: 1})	
+						$(Ligne).slideUp()//.remove();
 					}
 				}
 			});
