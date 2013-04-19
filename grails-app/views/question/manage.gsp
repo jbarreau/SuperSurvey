@@ -6,9 +6,6 @@
 		<g:set var="entityName" value="${message(code: 'question.label', default: 'Question')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 		<g:javascript src="jquery.form.js" >
-			var Repajax = "${createLink(controller:'reponse',action:'saveAJAX')}"
-			var Comajax = "${createLink(controller:'commentaire',action:'saveAJAX')}"
-		
 		</g:javascript>
 		<g:javascript src ="Manage.js"></g:javascript>
 		<style type="text/css">
@@ -18,6 +15,9 @@
 		</style>
 	</head>
 	<body>
+		<input type="hidden" id="urlRep" value="${createLink(controller:'reponse',action:'saveAJAX')}">
+		<input type="hidden" id="urlCom" value="${createLink(controller:'commentaire',action:'saveAJAX')}">
+		
 		<a href="#edit-question" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
