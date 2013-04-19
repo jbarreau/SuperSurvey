@@ -3,6 +3,8 @@
 		//save and update Reponse
 		$(document).on("click", $(".add-reponse, .update-reponse"), function(e){
 			if(!$(e.target).is('.add-reponse') && !$(e.target).is('.update-reponse')) return
+			
+			var url=$("#urlRep").val()
 		
 			var parentLigne = $(e.target).parents('.repLigne');
 		
@@ -29,7 +31,7 @@
 			$.ajax({
 				data : dataToSend,
 				type:"POST",
-				url :"/SuperSurveys/reponse/saveAJAX",//Repajax,//""+ ${createLink(uri: '/reponse/saveAJAX')} ,
+				url :url,//"/SuperSurveys/reponse/saveAJAX",//Repajax,//""+ ${createLink(uri: '/reponse/saveAJAX')} ,
 				success: function(data){
 					//alert('Retour: ' + JSON.stringify(data))
 					
@@ -89,6 +91,8 @@
 		$(document).on('click', $('.add-Comm .update-Comm'), function(e){
 			if(!$(e.target).is('.add-Comm') && !$(e.target).is('.update-Comm')) return;
 			
+			var url = $("#urlCom").val()
+			
 			var Ligne = $(e.target).parents(".CommLigne");
 			
 			var idRep = $(e.target).parents(".repCommLigne").prev(".repLigne").find(".RepId").val()
@@ -112,7 +116,7 @@
 			$.ajax({
 				data : dataToSend,
 				type:"POST",
-				url :"/SuperSurveys/commentaire/saveAJAX",//Commajax,//""+ ${createLink(uri: '/commentaire/saveAJAX')} ,
+				url :url,//"/SuperSurveys/commentaire/saveAJAX",//Commajax,//""+ ${createLink(uri: '/commentaire/saveAJAX')} ,
 				success: function(data){
 					//alert('Retour: ' + JSON.stringify(data))
 					
