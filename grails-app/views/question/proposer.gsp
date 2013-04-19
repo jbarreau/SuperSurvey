@@ -15,6 +15,28 @@
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
 			<h1>Proposition de réponse</h1>
+			<h2>Réponses existantes</h2>
+			<table>
+				<tr>
+					<th>Réponse</th>
+					<th>Commentaires</th>
+				</tr>
+				<g:each in="${questionInstance?.reponses}" var="r">
+					<g:if test="${r?.visible}">
+						<tr>
+							<td>${r?.text }</td>
+							<td>
+								<g:each in="${r?.commentaires}" var="c">
+									<g:if test="${c?.visible}">
+										${c?.text }<br/>
+									</g:if>
+								</g:each>
+							</td>
+						</tr>
+					</g:if>
+				</g:each>
+			</table>
+			
 			<h2>Proposer une réponse possible à cette question</h2>
 			
 			<g:if test="${flash.message}">

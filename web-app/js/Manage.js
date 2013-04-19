@@ -62,9 +62,9 @@
 							'</td>'+
 						'</tr>' ).insertBefore($("#newRepLigne"))
 					 }
-					
 					var parentLigne = $(e.target).parents('.repLigne');
 					$(parentLigne).css('opacity', .1).animate({opacity: 1})
+					
 					 
 					if (TypeAction == "create"){
 						$(parentLigne).find('.RepCorrecte').removeAttr('checked')
@@ -93,6 +93,7 @@
 			
 			var idRep = $(e.target).parents(".repCommLigne").prev(".repLigne").find(".RepId").val()
 			var txt = $(Ligne).find('.ComTxt').val()
+			var visible = $(Ligne).find('.ComVisible').is(':checked')
 			var id = $(e.target).is('.update-Comm') ? $(Ligne).find('.CommId').val() : -1;
 			//alert (txt+ " "+ id + " "+ idRep)
 			
@@ -103,9 +104,10 @@
 			
 			var dataToSend = {
 				idRep: idRep,
+				visible: visible,
 				text: txt,
 				id: id
-			}
+			} 
 			
 			$.ajax({
 				data : dataToSend,
@@ -118,20 +120,21 @@
 
 					Ligne = $(	'<tr class="CommLigne">'+
 							'<td><input type="hidden" class="CommId" value="'+data.id+'"/>'+
-							'<input type="text" class="CommTxt" value="'+data.text+'"/></td>'+/*
+							'<input type="text" class="CommTxt" value="'+data.text+'"/></td>'+
 							'<td>'+
-								'<input type="checkbox" class="CommVisible" '+(data.visible ? 'checked="checked"' : '')+' " />'+
-							'</td>'+*/
+								'visible : <input type="checkbox" class="ComVisible" '+(data.visible ? 'checked="checked"' : '')+' " />'+
+							'</td>'+
 							'<td>'+
 								'<a href="#" class="update-Comm">update</a><br />'+
 								'<a href="#" class="delete-Comm">delete</a><br />'+
 							'</td>'+
 						'</tr>').insertBefore($("#newCommLigne"+idRep))
-						var parentLigne = $(e.target).parents('.CommLigne');
-						$(parentLigne).css('opacity', .1).animate({opacity: 1})
 						
 						$(e.target).parents(".CommLigne").find('.ComTxt').val("")
+						$(e.target).parents(".CommLigne").find('.ComVisible').removeAttr('checked')
 					 }
+					var parentLigne = $(e.target).parents('.CommLigne');
+					$(parentLigne).css('opacity', .1).animate({opacity: 1})
 					
 					 
 					/*if (TypeAction == "create"){
@@ -201,7 +204,7 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						$(parentLigne).css('opacity', .1).animate({opacity: 1})	
+						$(Ligne).css('opacity', .1).animate({opacity: 1})	
 						$(Ligne).slideUp()//.remove();
 					}
 				}

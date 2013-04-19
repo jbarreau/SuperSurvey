@@ -27,7 +27,7 @@
 			</ul>
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
-			<h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+			<h1><g:message code="default.edit.label" args="[entityName]" />, id Question :  ${questionInstance.id}</h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -72,18 +72,20 @@
 							    	</td>
 								</tr>
 								<tr class="repCommLigne">
-									<td colspan="7">
+									<td colspan="6">
 										<table>
 											<g:each in="${r?.commentaires }" var ="c">
 												<tr class="CommLigne" id="Com${c.id}">
 													<td><input type="hidden" class="CommId" value="${c.id}"/>
 													<input type="text" id="ComTxt" value="${c?.text}"/></td>
-													<td><a href="#" class="update-Comm">update</a><br>
-											    		<a href="#" class="delete-Comm">delete</a><br></td>
+													<td>visible : <input type="checkbox" class="CommVisible" ${ r?.visible ? 'checked="checked"' : 'checked="unchecked"'} /></td>
+											    	<td><a href="#" class="update-Comm">update</a><br/>
+											    		<a href="#" class="delete-Comm">delete</a></td>
 												</tr>
 											</g:each>
 												<tr id="newCommLigne${r?.id}" class="CommLigne">
 													<td><input type="text" class="ComTxt" /></td>
+													<td>visible : <input type="checkbox" class="ComVisible" /></td>
 													<td><a href="#" class="add-Comm">Ajouter</a></td>
 												</tr>
 										</table>
