@@ -245,10 +245,10 @@ class QuestionController {
 			redirect(action: "show", id:questionInstance.id)
 			return
 		}
-		
+		println params
 		
 		// Si on a envoyé le formulaire, alors on le traite
-		if(params.reponseId != null || params.reponseradio != null){
+		if(params.formSend != null){
 			
 			// A desactivé pr les tests
 			/*if(session["dejavote"+questionInstance.id]){
@@ -259,33 +259,43 @@ class QuestionController {
 			
 			def criteria = Reponse.createCriteria()
 			def reponsesInstances
+			def estVoteBlanc = false
 			
 			// On unifie les résultats selon si on est radio ou checkbox
 			def reponsesVotees = []
-			if(params.reponseId != null)
+			if(params.reponseId != null){
+				if(!params.reponseId.toString()[0].equals("[")) params.reponseId = [params.reponseId]
 				params.reponseId.each({ reponsesVotees.push(Long.decode(new String(it)))})
-			else
+			}
+			else if(params.reponseradio != null)
 				reponsesVotees.push(Long.decode(params.reponseradio))
-			
+			else { 
+				// Vote blanc, on laisse le tableau vide
+				estVoteBlanc = true
 				
-			// On récupere les instances des réponses votées
-			reponsesInstances = criteria.list {
-				'in'("id",reponsesVotees)
-				question{ // On verrifie qu'on est sur la bonne question
-					idEq((long)questionInstance.id)
+			}
+							
+			if(!estVoteBlanc){
+				// On récupere les instances des réponses votées
+				reponsesInstances = criteria.list {
+					'in'("id",reponsesVotees)
+					question{ // On verrifie qu'on est sur la bonne question
+						idEq((long)questionInstance.id)
+					}
+				}
+				
+				// on met à jour les stats
+				reponsesInstances.each {
+					Reponse r = it
+					r.setNbVotes(r.nbVotes+1)
+					if(!r.save()){
+						flash.message =  "Erreur à l'enregistrement du vote"
+						render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees])
+						return
+					}
 				}
 			}
 			
-			// on met à jour les stats
-			reponsesInstances.each {
-				Reponse r = it
-				r.setNbVotes(r.nbVotes+1)
-				if(!r.save()){
-					flash.message =  "Erreur à l'enregistrement du vote"
-					render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees])
-					return
-				}
-			}
 			questionInstance.setNbVotes(questionInstance.nbVotes+1)
 			if(!questionInstance.save()){
 				flash.message =  "Erreur à l'enregistrement du vote"

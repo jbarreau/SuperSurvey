@@ -170,8 +170,8 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						$(Ligne).slideUp()//.remove();
-						$(Ligne).css('opacity', .1).animate({opacity: 1})
+						//$(Ligne).slideUp()//.remove();
+						$(Ligne).css('opacity', 1).animate({opacity: 0}, function(){ $(this).remove(); })
 					}
 				}
 			});
@@ -201,8 +201,8 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						$(parentLigne).css('opacity', .1).animate({opacity: 1})	
-						$(Ligne).slideUp()//.remove();
+						$(Ligne).css('opacity', 1).animate({opacity: 0}, function(){ $(this).remove(); })
+						//$(Ligne).slideUp()//.remove();
 					}
 				}
 			});

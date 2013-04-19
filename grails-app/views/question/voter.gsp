@@ -25,6 +25,7 @@
 			
 			<div id="vote-contenu-question">
 			<g:form name="formvote" controller="question" action="voter" id="${questionInstance.id}">
+				<input type="hidden" name="formSend" />
 				<div id="vote-question-text">${questionInstance.text}</div>
 				<div id="vote-reponses">
 					<g:each var="reponse" in="${ questionInstance.reponses }">
