@@ -199,11 +199,8 @@ class QuestionController {
 			return
 		}
 		
-		if(questionInstance.etat != Etat.inCompletion){
-			flash.message = 
-				question.etat == Etat.inVote ?
-				"La question est déjà en cours de vote"
-				: "Impossible de lancer la cette question"
+		if(questionInstance.etat == Etat.inVote){
+			flash.message = "La question est déjà en cours de vote"
 			redirect(action: "show", id:questionInstance.id)
 			return
 		}
@@ -257,6 +254,7 @@ class QuestionController {
 				return
 			}*/
 			
+
 			def criteria = Reponse.createCriteria()
 			def reponsesInstances
 			def estVoteBlanc = false
@@ -293,6 +291,7 @@ class QuestionController {
 						render(view: "voter", model:[questionInstance: questionInstance, defaultValues:reponsesVotees])
 						return
 					}
+
 				}
 			}
 			

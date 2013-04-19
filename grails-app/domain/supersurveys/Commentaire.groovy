@@ -3,6 +3,7 @@ package supersurveys
 class Commentaire {
 
 	String text
+	boolean visible = false
 	
 	static belongsTo = [reponse:Reponse]
 	

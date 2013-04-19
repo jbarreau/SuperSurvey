@@ -33,7 +33,7 @@ class CommentaireController {
 
 	
 	def saveAJAX() {
-		//println params
+		println params
 		def ReponseInstance = Reponse.get(params.idRep)
 		if(!ReponseInstance){
 			render ([erreur: "Id de reponse inconnu"]) as JSON
@@ -45,8 +45,9 @@ class CommentaireController {
 			Commentaire.get(params.id.toInteger())
 			: new Commentaire(reponse:ReponseInstance)
 		
-		
+			
 		CommentaireInstance.text = params.text
+		CommentaireInstance.visible = params.visible.equals("true")
 		
 		if (!CommentaireInstance.save(flush: true)) {
 			render ([erreur: "Erreur à la sauvegarde"]) as JSON 

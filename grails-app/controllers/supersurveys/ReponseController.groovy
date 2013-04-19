@@ -133,6 +133,8 @@ class ReponseController {
 	
 	
 	def proposerSave(){
+		params.visible=true
+		params.correcte= false
 		def  id = params.idquestion
 		def questionInstance = Question.get(id)
 		if (!questionInstance) {
@@ -140,6 +142,8 @@ class ReponseController {
 			redirect(controller:"question",action: "index")
 			return
 		}
+		//reponseInstance.setVisible(false)
+		//reponseInstance.setCorrecte(false)
 		
 		if(questionInstance.etat != Etat.inCompletion){
 			redirect(controller:"question", action: "show", id:questionInstance.id)

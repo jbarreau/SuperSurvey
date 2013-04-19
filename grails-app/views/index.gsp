@@ -93,6 +93,12 @@
 						if (idQ != "")
 							window.location=link
 					})
+					$('#questNum').keypress(function(e) {
+					var code = (e.keyCode ? e.keyCode : e.which);
+						if(code == 13) { //Enter keycode
+							$('#allerQuestion').click()
+						}
+					});
 				})
 			})(jQuery)
 		</script>
@@ -109,7 +115,7 @@
 					<div style="text-align:center;line-height:30px;">
 						Aller à la question n°<br />
 						<input type="number" id="questNum" size="3"/>
-						<input type="button" id="allerQuestion" value="Go" style=""/>
+						<input type="button" id="allerQuestion" value="Go" onkeyup=""/>
 					</div>
 				</g:section>
 				<shiro:isLoggedIn>
