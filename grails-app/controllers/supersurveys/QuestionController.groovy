@@ -25,14 +25,30 @@ class QuestionController {
         [questionInstanceList: Question.list(params), questionInstanceTotal: Question.count()]
     }*/
 
-    def list(long idProf) {
-		Question.list(params)
+    def list(long id) {
+		if(!SecurityUtils.getSubject().hasRole('ROLE_PROF') && id <= 0){
+			// Si pas d'id on retourne pas loggé, retour a l'accueil
+			redirect(uri:"/")
+			return
+		}
+		def user; // point virgule nécessaire
+		if(id > 0) // Si on a renseigné un id, on affiche les question du prof correspondant
+			user = User.findById(id)
+		else // Sinon on affiche les question du prof connecté
+			user = User.findByUsername(SecurityUtils.getSubject().getPrincipal())
+		
+		if(user == null){
+			redirect(uri:'/')
+			return
+		}
+			
+		//Question.list(params)
         def questionInstanceListRet = []
-		def user = User.findByUsername(SecurityUtils.getSubject().getPrincipal())
 		user.questions.each({
 			questionInstanceListRet.add(it)
 		})
-        [questionInstanceList: questionInstanceListRet, questionInstanceTotal: questionInstanceListRet.size()]
+		
+        [questionInstanceList: questionInstanceListRet, questionInstanceTotal: questionInstanceListRet.size(), userInstance: user]
     }
 
     def create() {
@@ -69,15 +85,14 @@ class QuestionController {
         def questionInstance = Question.get(id)
 		
         if (!questionInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), id])
-            redirect(action: "list")
+            flash.message = "Aucune question associée à cet id"
+			redirect(action: "list")
             return
         }
-		
+		println Etat.inCompletion
 		def isProfLogged = SecurityUtils.subject.isAuthenticated() //true // for developing
 		//questionInstance.setEtat(Etat.inVote) // Juste pour le test
-		switch (questionInstance.etat){
-			case Etat.inCompletion:
+		if(questionInstance.etat == Etat.inCompletion){
 				if(isProfLogged){
 					//render(view: "manage", model:[questionInstance: questionInstance])
 					redirect(action:"manage", id:questionInstance.id)
@@ -85,8 +100,8 @@ class QuestionController {
 					//render(view: "proposer", model:[questionInstance: questionInstance])
 					redirect(action:"proposer", id:questionInstance.id)
 				}
-				break
-			case Etat.inVote:
+		}
+		else if(questionInstance.etat == Etat.inVote){
 				if(isProfLogged){
 					//render(view: "manage", model:[questionInstance: questionInstance])
 					redirect(action:"manage", id:questionInstance.id)
@@ -95,15 +110,13 @@ class QuestionController {
 					flash.message = flash.message // chelou mais necessaire ^^ pour persister le flash.message // sa metonnerai
 					redirect(action:"voter", id:questionInstance.id)
 				}
-				break
-			case Etat.close:
+		}
+		else if(questionInstance.etat == Etat.close){
 				if(isProfLogged){
 					redirect(action: "manage", id:questionInstance.id)
 				}else{
 					redirect(action:"showStat", id:questionInstance.id)
 				}
-				break
-			default: break
 		}
     }
 
@@ -306,7 +319,7 @@ class QuestionController {
 			session["dejavote"+questionInstance.id] = true
 			
 			flash.message = "Votre vote a bien été pris en compte. Merci pour votre participation. :)"
-			redirect(action:"show", id:questionInstance.id)
+			redirect(action:"voter", id:questionInstance.id)
 			return
 		}
 		

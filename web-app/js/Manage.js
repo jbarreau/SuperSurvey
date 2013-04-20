@@ -19,6 +19,7 @@
 			var txt = $(parentLigne).find('.RepTxt').val()
 			var idQuest =  $("#idQuest").val()
 			
+			if(txt == '') return false;
 			
 			var dataToSend = {
 				correcte : corr,
@@ -48,18 +49,19 @@
 								'<input type="checkbox" class="RepCorrecte" '+(data.correcte ? 'checked="checked"' : '')+' " />'+
 							'</td>'+
 							'<td>'+
-								'<a href="#" class="update-reponse">update</a><br />'+
-								'<a href="#" class="delete-reponse">delete</a><br />'+
-								'<a href="#" class="voir-comm-reponse">Comm</a>'+
+								'<a href="#" class="update-reponse">Modifier</a><br />'+
+								'<a href="#" class="delete-reponse">Supprimer</a><br />'+
+								'<a href="#" class="voir-comm-reponse">Commentaires</a>'+
 							'</td>'+
 						'</tr>'+
 						'<tr class="repCommLigne">'+
-							'<td colspan="7">'+
+							'<td colspan="6">'+
 								'<table>'+
-									'<tr>'+
-										'<td><input type="text" class="newComTxt" /></td>'+
-										'<td><a href="#" class="add-Comm">Ajouter</a></td>'+
-									'</tr>'+
+									'<tr id="newCommLigne0" class="CommLigne">'+
+									'<td><input type="text" class="ComTxt" /></td>'+
+									'<td>Visible : <input type="checkbox" class="ComVisible" /></td>'+
+									'<td><a href="#" class="add-Comm">Ajouter</a></td>'+
+							'</tr>'+
 								'</table>'+
 							'</td>'+
 						'</tr>' ).insertBefore($("#newRepLigne"))
@@ -100,6 +102,8 @@
 			var visible = $(Ligne).find('.ComVisible').is(':checked')
 			var id = $(e.target).is('.update-Comm') ? $(Ligne).find('.CommId').val() : -1;
 			//alert (txt+ " "+ id + " "+ idRep)
+
+			if(txt == '') return false;
 			
 			if (id==-1)
 				var TypeAction = "create"
@@ -129,10 +133,10 @@
 								'visible : <input type="checkbox" class="ComVisible" '+(data.visible ? 'checked="checked"' : '')+' " />'+
 							'</td>'+
 							'<td>'+
-								'<a href="#" class="update-Comm">update</a><br />'+
-								'<a href="#" class="delete-Comm">delete</a><br />'+
+								'<a href="#" class="update-Comm">Modifier</a><br />'+
+								'<a href="#" class="delete-Comm">Supprimer</a><br />'+
 							'</td>'+
-						'</tr>').insertBefore($("#newCommLigne"+idRep))
+						'</tr>').insertBefore($(e.target).parents('.CommLigne'))
 						
 						$(e.target).parents(".CommLigne").find('.ComTxt').val("")
 						$(e.target).parents(".CommLigne").find('.ComVisible').removeAttr('checked')
@@ -208,7 +212,9 @@
 						alert(xhr.status);
 						alert(thrownError);
 					}else{
-						$(Ligne).css('opacity', 1).animate({opacity: 0}, function(){ $(this).remove(); })
+						$(Ligne).css('opacity', 1).animate({opacity: 0}, function(){ 
+							$(this).next().remove()
+							$(this).remove(); })
 						//$(Ligne).slideUp()//.remove();
 					}
 				}
@@ -225,6 +231,14 @@
 			$(e.target).parents('.repLigne').next('.repCommLigne').toggle()
 			return false
 		})
+		
+		$('#edit-reponse').on('keypress', $('input'), function(e){
+			if(!$(e.target).is('input')) return
+			var code = (e.keyCode ? e.keyCode : e.which);
+				if(code == 13) { //Enter keycode
+					return false;
+				}
+			});
 			
 	})			
 })(jQuery);

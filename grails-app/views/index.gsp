@@ -110,12 +110,19 @@
 			<h1>Bienvenue sur SuperSurvey</h1>
 			<h2>L'application qui va vous permettre de communiquer, enfin, avec vos profs ;)</h2>
 
+			<div class="cadre-acces-question">
+				Id de question : 
+				<input type="text" id="questNum" size="3" style="text-align:center;"/>
+				<input type="button" id="allerQuestion" value="Go" />
+			</div>
+
+			<!--  
 			<g:conteneur>
 				<g:section titre="Je suis un étudiant">
 					<div style="text-align:center;line-height:30px;">
-						Aller à la question n°<br />
-						<input type="number" id="questNum" size="3"/>
-						<input type="button" id="allerQuestion" value="Go" onkeyup=""/>
+						Id de question : 
+						<input type="text" id="questNum" size="3" style="text-align:center;"/>
+						<input type="button" id="allerQuestion" value="Go" />
 					</div>
 				</g:section>
 				<shiro:isLoggedIn>
@@ -128,6 +135,7 @@
 					</g:section>
 				</shiro:isLoggedIn>
 			</g:conteneur>
+		-->
 
 <!-- div a supprimer pr la production 
 			<div id="controller-list" role="navigation">

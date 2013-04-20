@@ -20,11 +20,11 @@
 	</head>
 	<body>
 		<div id="header" role="banner">
-			<div style="float:right;"><g:logged/></div>
+			<div class="log-content"><g:logged/></div>
 			<a href="${createLink(uri: '/')}"><img src="${resource(dir: 'images', file: 'logo.png')}" alt="Logo"/></a>
 		</div>
 		<g:layoutBody/>
-		<div class="footer" role="contentinfo"> SuperSurvey - 2013 - GPL ??! </div>
+		<div class="footer" role="contentinfo"> SuperSurvey - 2013 - GPL </div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 		<g:javascript library="application"/>
 		<r:layoutResources />

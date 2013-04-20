@@ -29,16 +29,17 @@ html * {
 body {
 	background: #fdfdfd;
 	color: #333333;
-	margin: 0 auto;
+	margin: 20px auto;
 	max-width: 960px;
 	overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
-	   -moz-box-shadow: 0 0 0.3em #255b17;
+	   -moz-box-shadow: 0 0 0.3em #25175b;
 	-webkit-box-shadow: 0 0 0.3em #255b17;
 	        box-shadow: 0 0 0.3em #255b17;
+	border-radius: 2px;
 }
 
 #header {
-	min-height: 120px;
+	height: 100px;
 	border-bottom: 1px solid #aaa;
 }
 
@@ -479,8 +480,8 @@ th.desc a {
 	background: #ffffff;
 }
 
-th:hover, tr:hover {
-	background: #E1F2B6;
+tr:hover {
+	background: #f0faff;
 }
 
 /* PAGINATION */
@@ -676,3 +677,47 @@ a.skip {
 	background: #fff;
 }
 
+
+
+/* encadre du vote en haut a droite */
+.log-content{
+	float:right;
+	height:80px;
+	margin:0px;
+	padding: 10px 20px;
+	border-left:1px solid #999;
+	text-align: center;
+	background: #fff;
+}
+
+
+
+.cadre-acces-question{
+	margin: 30px 1em;
+	font-size: 2em;
+	padding: 10px;
+	border: 1px solid #eee;
+	text-align:center;
+	background: #fff;
+}
+.cadre-acces-question input[type="text"]{
+	border-color: #9c9;
+}
+.cadre-acces-question input[type="button"]{
+	cursor: pointer;
+}
+
+
+
+#edit-reponse td{
+	vertical-align: middle;
+}
+#edit-reponse a:link{
+	text-decoration: none;
+}
+#edit-reponse a:hover{
+	text-decoration: underline;
+}
+#edit-reponse table{
+	border-top: 0px;
+}

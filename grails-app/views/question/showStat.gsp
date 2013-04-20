@@ -14,20 +14,22 @@
 			</ul>
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
-			<span class="property-value" aria-labelledby="text-label"><g:fieldValue bean="${questionInstance}" field="text"/></span><br>
-			<p>il y a eu <g:fieldValue bean="${questionInstance}" field="nbVotes"/> votes,
+			<h1>Statistiques d'une question</h1>
+		
+			<div id="vote-question-text">${questionInstance?.text}</div>
+			<h2>Nombre de personnesayant votés : <g:fieldValue bean="${questionInstance}" field="nbVotes"/> votes<h2>
 				<table>
 					<tr>
-						<th>reponse</th>
-						<th>nombre de vote</th>
-						<th>commentaire</th>
+						<th>Réponse</th>
+						<th>Nombre de vote</th>
+						<th>Commentaires</th>
 					</tr>
 					<g:each in="${questionInstance?.reponses?}" var="r">
 						<tr>
 							<td>${r?.text }</td>
 							<td>${r?.nbVotes }</td>
 							<td>
-							<g:if test="${r?.correcte}">REPONSE CORRECTE<br/>
+							<g:if test="${r?.correcte}"><span style="color:#9C0;">REPONSE CORRECTE</span><br/>
 							</g:if>
 								<g:each in="${r?.commentaires?}" var="c">
 								${c?.text }

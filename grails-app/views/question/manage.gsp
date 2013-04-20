@@ -21,13 +21,20 @@
 		<a href="#edit-question" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>		
 				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<g:if test="${questionInstance.etat == supersurveys.Etat.inVote}">
+					<li style="float:right;"><g:link action="voter" id="${questionInstance?.id}">Aller à la page du vote</g:link></li>
+				</g:if>
+				<g:if test="${questionInstance?.etat != supersurveys.Etat.inCompletion}">
+					<li style="float:right;"><g:link class="" action="showStat" id="${questionInstance.id}">Voir les statistiques</g:link></li>
+				</g:if>
 			</ul>
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
-			<h1><g:message code="default.edit.label" args="[entityName]" />, id Question :  ${questionInstance.id}</h1>
+			<h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+			<h2>Vous pouvez communiquer cet <strong>id</strong> à vos étudiants : <strong>${questionInstance.id}</strong></h2>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -43,8 +50,29 @@
 				<g:hiddenField name="version" value="${questionInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
+					<div class="fieldcontain">
+						<label for="type">
+							Nombre de votes
+						</label>
+						${ questionInstance?.nbVotes }
+					</div>
+					<div class="fieldcontain">
+						<label for="type">
+							Date de création 
+						</label>
+						<g:formatDate date="${ questionInstance?.dateCreation }"  format="dd / MM / yyyy 'à' HH'h'mm"/>
+					</div>
+					<div class="fieldcontain">
+						<label for="type">
+							État
+						</label>
+						${ questionInstance?.etat }
+					</div>
+
+					
 				</fieldset>
 				 
+				 <h2>Gérez les réponses à cette question ci-dessous</h2>
 						<table id="edit-reponse">
 							<tr>
 								<th>#id</th>
@@ -66,9 +94,9 @@
 										<input type="checkbox" class="RepCorrecte" ${ r?.correcte ? 'checked="checked"' : ''} />
 									</td>
 							    	<td>
-							    		<a href="#" class="update-reponse">update</a><br />
-							    		<a href="#" class="delete-reponse">delete</a><br />
-							    		<a href="#" class="voir-comm-reponse">Comm</a>
+							    		<a href="#" class="update-reponse">Modifier</a><br />
+							    		<a href="#" class="delete-reponse">Supprimer</a><br />
+							    		<a href="#" class="voir-comm-reponse">Commentaires</a>
 							    	</td>
 								</tr>
 								<tr class="repCommLigne">
@@ -78,14 +106,14 @@
 												<tr class="CommLigne" id="Com${c.id}">
 													<td><input type="hidden" class="CommId" value="${c.id}"/>
 													<input type="text" id="ComTxt" value="${c?.text}"/></td>
-													<td>visible : <input type="checkbox" class="CommVisible" ${ r?.visible ? 'checked="checked"' : 'checked="unchecked"'} /></td>
-											    	<td><a href="#" class="update-Comm">update</a><br/>
-											    		<a href="#" class="delete-Comm">delete</a></td>
+													<td>Visible : <input type="checkbox" class="CommVisible" ${ c?.visible ? 'checked="checked"' : ''} /></td>
+											    	<td><a href="#" class="update-Comm">Modifier</a><br/>
+											    		<a href="#" class="delete-Comm">Supprimer</a></td>
 												</tr>
 											</g:each>
 												<tr id="newCommLigne${r?.id}" class="CommLigne">
 													<td><input type="text" class="ComTxt" /></td>
-													<td>visible : <input type="checkbox" class="ComVisible" /></td>
+													<td>Visible : <input type="checkbox" class="ComVisible" /></td>
 													<td><a href="#" class="add-Comm">Ajouter</a></td>
 												</tr>
 										</table>
@@ -105,9 +133,12 @@
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-					<g:link class="" action="startVote" id="${questionInstance.id}">d&eacute;marer le vote de la question</g:link>
-					<g:link class="" action="cloture" id="${questionInstance.id}">terminer le vote</g:link>
-					<g:link class="" action="showStat" id="${questionInstance.id}">voir statistiques</g:link>
+					<g:if test="${questionInstance?.etat == supersurveys.Etat.inCompletion}">
+						<g:link class="" action="startVote" id="${questionInstance.id}">Démarrer le vote de la question</g:link>
+					</g:if>
+					<g:if test="${questionInstance?.etat == supersurveys.Etat.inVote}">
+						<g:link class="" action="cloture" id="${questionInstance.id}">Terminer le vote</g:link>
+					</g:if>
 				</fieldset>
 			</g:form>
 		</div>

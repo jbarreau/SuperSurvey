@@ -6,10 +6,16 @@ class ConectedTagLib {
 		def u = SecurityUtils.getSubject().getPrincipal()
 		
 		if (!u){
-			out << "<p style='display: inline-block;text-align: right;margin: 1em;'>non connect&eacute; </p><br/> <a href = \"${createLink(uri: '/auth/login')}\">connexion professeur</a>" 
+			out << "Non connecté"
+			out << "<br/> <a href = \"${createLink(uri: '/auth/login')}\">Connexion professeur</a>" 
 		}else{
-			out << "<p style='display: inline-block;text-align: right;margin: 1em;'>connect&eacute; en tant que " << User.findByUsername(u) << "<br/>" <<
-			"</p><a href = \"${createLink(uri: '/auth/signOut')}\">deconnexion</a>"
+			out << "Connecté en tant que <br />" 
+			out << "<strong>" << User.findByUsername(u) << "</strong><br/>"
+			out << '<a href="'
+			out << createLink(controller:"question", action:"list")
+			out << '">Mes questions</a>'
+			out << ' - '
+			out << "<a href = \"${createLink(uri: '/auth/signOut')}\">Déconnexion</a>"
 		}
 	}//
 }

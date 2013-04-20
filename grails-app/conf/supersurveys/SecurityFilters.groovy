@@ -24,7 +24,7 @@ class SecurityFilters {
 	 * against.
 	 */
 	static authenticatedActions = [
-			[controller: 'user', action: '*', roles: ['ROLE_PROF']],
+			//[controller: 'user', action: '*', roles: ['ROLE_PROF']],
 			[controller: 'question', action: 'manage', roles: ['ROLE_PROF']]
 	]
 

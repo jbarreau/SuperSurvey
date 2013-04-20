@@ -10,8 +10,8 @@ public enum Etat{
 
 class Question {
 	String text
-	Date dateCreation
-	int temps // Un temps en secondes
+	Date dateCreation = new Date()
+	int temps // Un temps en secondes // Non géré finalement
 	int nbVotes=0
 	TypeQuestion type
 	Etat etat
@@ -25,7 +25,7 @@ class Question {
     static constraints = {
 		text nullable: false, blank: false
 		dateCreation nullable: false
-		temps nullable: true, min: 5
+		//temps nullable: true, min: 5
 		type nullable: false
     }
 	

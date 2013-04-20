@@ -15,6 +15,8 @@
 		</div>
 		<div id="edit-question" class="content scaffold-edit" role="main">
 			<h1>Proposition de réponse</h1>
+			
+			<g:if test="${questionInstance?.reponses.findAll({ it.visible }).size() > 0}">
 			<h2>Réponses existantes</h2>
 			<table>
 				<tr>
@@ -36,6 +38,7 @@
 					</g:if>
 				</g:each>
 			</table>
+			</g:if>
 			
 			<h2>Proposer une réponse possible à cette question</h2>
 			

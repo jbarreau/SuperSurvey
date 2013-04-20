@@ -11,6 +11,9 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+				<shiro:hasRole name="ROLE_PROF">
+					<li><g:link class="edit" action="manage" id="${questionInstance?.id }">Gérer cette question</g:link></li>
+				</shiro:hasRole>
 			</ul>
 		</div>
 		<div id="vote-question" class="content" role="main">
@@ -19,8 +22,6 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			
-			<div id="vote-chrono">Afficher le chono</div>
 			
 			
 			<div id="vote-contenu-question">

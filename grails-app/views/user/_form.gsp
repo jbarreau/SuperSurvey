@@ -40,14 +40,6 @@
 		<span class="required-indicator">*</span>
 		
 	</label>
-	<g:textField name="password" required="" value="" />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'questions', 'error')} ">
-	<label for="questions">
-		<g:message code="user.questions.label" default="Questions" />
-		
-	</label>
-	<g:select name="questions" from="${supersurveys.Question.list()}" multiple="multiple" optionKey="id" size="5" value="${userInstance?.questions*.id}" class="many-to-many"/>
+	<g:passwordField name="password" required="" value="" />
 </div>
 
