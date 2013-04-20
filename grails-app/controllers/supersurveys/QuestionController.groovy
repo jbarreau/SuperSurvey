@@ -260,12 +260,14 @@ class QuestionController {
 		// Si on a envoyé le formulaire, alors on le traite
 		if(params.formSend != null){
 			
-			// A desactivé pr les tests
-			/*if(session["dejavote"+questionInstance.id]){
+			
+			//* Eviter qu'une personne puisse voter 2 fois de suite
+			if(session["dejavote"+questionInstance.id]){
 				flash.message = "Vous avez déjà voté, merci de ne pas tricher :D"
 				redirect(action: "show", id:questionInstance.id)
 				return
-			}*/
+			}
+			//*/
 			
 
 			def criteria = Reponse.createCriteria()
@@ -329,7 +331,13 @@ class QuestionController {
 	
 	def showStat(Long id){
         def questionInstance = Question.get(id)
-		if (Question.get(id).etat==Etat.close)
-			render(view: "showStat", model: [questionInstance: questionInstance])
+		
+		if (Question.get(id).etat == Etat.inCompletion){
+			flash.message = "Cette question n'a pas encore été lancée"
+			redirect(action:"show", id:id)
+			return;	
+		}
+		
+		render(view: "showStat", model: [questionInstance: questionInstance])
 	}
 }

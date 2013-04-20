@@ -17,7 +17,7 @@
 			<h1>Statistiques d'une question</h1>
 		
 			<div id="vote-question-text">${questionInstance?.text}</div>
-			<h2>Nombre de personnesayant votés : <g:fieldValue bean="${questionInstance}" field="nbVotes"/> votes<h2>
+			<h2>Nombre de personnes ayant votés : <g:fieldValue bean="${questionInstance}" field="nbVotes"/> votes<h2>
 				<table>
 					<tr>
 						<th>Réponse</th>
@@ -31,8 +31,11 @@
 							<td>
 							<g:if test="${r?.correcte}"><span style="color:#9C0;">REPONSE CORRECTE</span><br/>
 							</g:if>
-								<g:each in="${r?.commentaires?}" var="c">
-								${c?.text }
+								<g:each in="${r?.commentaires}" var="c">
+								<g:if test="${true||c?.visible == "1"}">
+									${c?.text}
+									<br />
+								</g:if>
 								</g:each>
 							</td>
 						</tr>
